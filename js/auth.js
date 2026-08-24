@@ -9,9 +9,7 @@
 // =========================================
 
 let accounts =
-    JSON.parse(
-        localStorage.getItem("makivanAccounts")
-    ) || [];
+    JSON.parse(localStorage.getItem("makivanAccounts")) || [];
 
 
 // =========================================
@@ -20,10 +18,7 @@ let accounts =
 
 function saveAccounts() {
 
-    localStorage.setItem(
-        "makivanAccounts",
-        JSON.stringify(accounts)
-    );
+    localStorage.setItem("makivanAccounts",JSON.stringify(accounts));
 
 }
 
@@ -48,10 +43,7 @@ function showMessage(element, message, type) {
 // PASSWORD TOGGLE FUNCTION
 // =========================================
 
-function setupPasswordToggle(
-    buttonId,
-    inputId
-) {
+function setupPasswordToggle(buttonId,inputId) {
 
     const button =
         document.getElementById(buttonId);
@@ -73,16 +65,13 @@ function setupPasswordToggle(
 
                 button.textContent = "🙈";
 
-                button.setAttribute(
-                    "aria-label",
-                    "Hide password"
-                );
+                button.setAttribute("aria-label", "Hide password");
 
             } else {
 
                 input.type = "password";
 
-                button.textContent = "👁";
+                button.textContent = '<i class="fa-solid fa-eye"></i>';
 
                 button.setAttribute(
                     "aria-label",
@@ -199,11 +188,7 @@ if (loginForm) {
             }
 
 
-            const account =
-                accounts.find(
-                    user =>
-                        user.email === email
-                );
+            const account = accounts.find(user => user.email === email);
 
 
             if (!account) {
@@ -307,7 +292,7 @@ if (loginForm) {
                     }
 
                 },
-                1000
+                500
             );
 
 
@@ -318,7 +303,7 @@ if (loginForm) {
                         "dashboard.html";
 
                 },
-                3500
+                4500
             );
 
         }
@@ -422,12 +407,10 @@ if (registerForm) {
                 value.length >= 8;
 
 
-            const hasNumber =
-                /\d/.test(value);
+            const hasNumber = /\d/.test(value);
 
 
-            const hasLetter =
-                /[A-Za-z]/.test(value);
+            const hasLetter = /[A-Za-z]/.test(value);
 
 
             lengthCheck.classList.toggle(
@@ -448,10 +431,7 @@ if (registerForm) {
             );
 
 
-            lengthCheck.textContent =
-                hasLength
-                    ? "✓ At least 8 characters"
-                    : "○ At least 8 characters";
+            lengthCheck.textContent = hasLength ? "✓ At least 8 characters" : "○ At least 8 characters";
 
 
             numberCheck.textContent =
@@ -513,6 +493,9 @@ if (registerForm) {
                     "Please enter your full name.",
                     "error"
                 );
+            if (name.value.trim() < 2){
+                showMessage(registerMessage, "Please enter two names or more");
+            }
 
                 fullName.focus();
 
@@ -540,8 +523,7 @@ if (registerForm) {
             // EMAIL FORMAT
             // =================================
 
-            const emailPattern =
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
             if (
@@ -681,31 +663,29 @@ if (registerForm) {
 
             const newAccount = {
 
-    id: Date.now().toString(),
+                id: Date.now().toString(),
 
-    name: name,
+                name: name,
 
-    email: userEmail,
+                email: userEmail,
 
-    phone: userPhone,
+                phone: userPhone,
 
-    password: userPassword,
+                password: userPassword,
 
-    createdAt:
-        new Date().toISOString(),
+                createdAt:
+                new Date().toISOString(),
 
-    sessions: [],
+                sessions: [],
 
-    moodHistory: [],
+                moodHistory: [],
 
-    notifications: []
+                notifications: []
 
-};
+            };
 
 
-            accounts.push(
-                newAccount
-            );
+            accounts.push(newAccount);
 
 
             saveAccounts();

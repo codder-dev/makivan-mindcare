@@ -975,6 +975,7 @@ footer {
     .goal-section .goal-container {
         display: flex;
         flex-direction: column;
+        grid-template-columns: 1fr;
         align-items: center;
         gap: 30px;
     }
@@ -1030,6 +1031,7 @@ footer {
 
     .goal-section h2 {
         font-size: 24px;
+        color: white;
     }
 
     .goal-section p {
@@ -1092,6 +1094,9 @@ footer {
     .about {
         grid-template-columns: 1fr;
     }
+    .goal {
+        grid-template-columns: 1fr;
+    }
 
     .cta {
         flex-direction: column;
@@ -1105,6 +1110,19 @@ footer {
         gap: 20px;
 
         text-align: center;
+    }
+    .nav-links.mobile-active {
+        display: flex;
+        position: absolute;
+        top: 78px;
+        left: 0;
+        width: 100%;
+        padding: 25px;
+        flex-direction: column;
+        gap: 20px;
+        background: #080e1a;
+        border-bottom: #080e1a;
+        border-bottom: 1px solid #1e293b;
     }
 }
 
