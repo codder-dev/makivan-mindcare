@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Makivan Mind Care – compassionate counselling and psychology services for individuals, couples, and families. Your mental health matters." />
+    <meta name="keywords" content="Makivan Mind Care, counselling, psychology, mental health, therapy,心理咨询,心理学家, Kenya, wellbeing" />
+    <meta name="author" content="Makivan Mind Care" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="Makivan Mind Care – Counselling & Psychology" />
+    <meta property="og:description" content="Professional, empathetic mental health support tailored to your journey." />
+    <meta property="og:url" content="https://www.makivanmindcare.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="images/og-mindcare.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#2a4b6e" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- main stylesheet -->
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <!-- Font Awesome 6  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Google Font: Inter + a softer, humanist touch -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet" />
+
+    <link rel="icon" href="images/company-logo.jpg" type="image/x-icon" />
+
+    <title>Makivan Mind Care – Counselling & Psychology</title>
+</head>
+<body>
+
+
+<!-- =========================================
+     APP
+========================================= -->
+
+<div class="app">
+
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <!-- LOGO -->
+
+        <div class="sidebar-logo">
+
+            <div class="logo-mark">
+                <img src="images/company-logo.jpg" style="width: 50px; height: 50px; border-radius: 50%;">
+            </div>
+
+            <div class="logo-text">
+
+                <strong>
+                    Makivan
+                </strong>
+
+                <span>
+                    Mind Care
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLOSE MOBILE -->
+
+        <button
+            class="sidebar-close"
+            id="sidebarClose"
+            aria-label="Close menu"
+        >
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="sidebar-nav">
+
+
+            <p class="nav-label">
+                MAIN
+            </p>
+
+
+            <a
+                href="#"
+                class="nav-item active"
+                data-section="dashboard"
+            >
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+                data-section="sessions"
+            >
+
+                <i class="fa-solid fa-comments"></i>
+
+                <span>
+                    My Sessions
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+                data-section="voice"
+            >
+
+                <i class="fa-solid fa-microphone"></i>
+
+                <span>
+                    Voice Session
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+                data-section="wellbeing"
+            >
+
+                <i class="fa-solid fa-seedling"></i>
+
+                <span>
+                    My Wellbeing
+                </span>
+
+            </a>
+
+
+            <p class="nav-label">
+                ACCOUNT
+            </p>
+
+
+            <a
+                href="#"
+                class="nav-item"
+                data-section="notifications"
+            >
+
+                <i class="fa-regular fa-bell"></i>
+
+                <span>
+                    Notifications
+                </span>
+
+                <span
+                    class="notification-count"
+                    id="notificationCount"
+                >
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-item"
+                data-section="settings"
+            >
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+
+            <!-- SUPPORT CARD -->
+
+            <div class="support-card">
+
+                <div class="support-icon">
+
+                    <i class="fa-solid fa-heart"></i>
+
+                </div>
+
+                <strong>
+                    Need someone to talk to?
+                </strong>
+
+                <p>
+                    Start a private session
+                    whenever you're ready.
+                </p>
+
+                <button
+                    id="sidebarStartSession"
+                >
+
+                    Start session
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- LOGOUT -->
+
+            <button
+                class="logout-button"
+                id="logoutButton"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>
+                    Sign out
+                </span>
+
+            </button>
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =====================================
+         MOBILE OVERLAY
+    ====================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+    <!-- =====================================
+         MAIN AREA
+    ====================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================
+             TOP BAR
+        ================================== -->
+
+        <header class="topbar">
+
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                aria-label="Open menu"
+            >
+
+                <i class="fa-solid fa-bars"></i>
+
+            </button>
+
+
+            <div class="topbar-title">
+
+                <span>
+                    My space
+                </span>
+
+            </div>
+
+
+            <!-- TOP RIGHT -->
+
+            <div class="topbar-actions">
+
+
+                <!-- NOTIFICATION -->
+                <a href="#notifications">
+                <button
+                    class="icon-button notification-button"
+                    id="notificationButton"
+                    aria-label="Notifications"
+                >
+                
+
+                    <i class="fa-regular fa-bell"></i>
+
+                    <span
+                        class="notification-dot"
+                        id="notificationDot"
+                    ></span>
+                    </a>
+
+                </button>
+
+
+                <!-- PROFILE -->
+
+                <div class="profile-wrapper">
+
+
+                    <button
+                        class="profile-button"
+                        id="profileButton"
+                    >
+
+                        <div
+                            class="profile-avatar"
+                            id="profileAvatar"
+                        >
+                            D
+                        </div>
+
+                        <div class="profile-info">
+
+                            <strong id="profileName">
+                                User
+                            </strong>
+
+                            <span>
+                                Member
+                            </span>
+
+                        </div>
+
+                        <i class="fa-solid fa-chevron-down"></i>
+
+                    </button>
+
+
+                    <!-- PROFILE MENU -->
+
+                    <div
+                        class="profile-menu"
+                        id="profileMenu"
+                    >
+
+                        <a href="#">
+
+                            <i class="fa-regular fa-user"></i>
+
+                            My profile
+
+                        </a>
+
+                        <a href="#settings">
+
+                            <i class="fa-solid fa-gear"></i>
+
+                            Settings
+
+                        </a>
+
+                        <div class="profile-divider"></div>
+
+                        <button id="profileLogout">
+
+                            <i class="fa-solid fa-right-from-bracket"></i>
+
+                            Sign out
+
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================
+             CONTENT
+        ================================== -->
+
+       <div class="dashboard-content">
+
+
+    <!-- =====================================
+         DASHBOARD SECTION
+    ====================================== -->
+
+    <section
+        class="dashboard-section active-section"
+        id="section-dashboard"
+    >
+
+        <section class="welcome-section">
+
+            <div>
+
+                <span class="welcome-label">
+                    YOUR WELLBEING SPACE
+                </span>
+
+                <h1>
+                    Good
+                    <span id="greeting">
+                        day
+                    </span>,
+                    <span id="userName">
+                        there
+                    </span>
+                    <span class="wave">&#128075;</span>
+                </h1>
+
+                <p>
+                    Whatever you're carrying today,
+                    you don't have to face it alone.
+                </p>
+
+            </div>
+
+            <div class="welcome-decoration">
+
+                <div class="pulse-circle">
+
+                    <i class="fa-solid fa-leaf"></i>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MOOD -->
+
+        <section class="mood-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="small-label">
+                        CHECK IN
+                    </span>
+
+                    <h2>
+                        How are you feeling today?
+                    </h2>
+
+                </div>
+
+                <i class="fa-regular fa-face-smile"></i>
+
+            </div>
+
+
+            <div class="mood-options">
+
+                <button
+                    class="mood-option"
+                    data-mood="great"
+                >
+                    <span>&#128522;</span>
+                    <small>Great</small>
+                </button>
+
+                <button
+                    class="mood-option"
+                    data-mood="good"
+                >
+                    <span>&#128578;</span>
+                    <small>Good</small>
+                </button>
+
+                <button
+                    class="mood-option"
+                    data-mood="okay"
+                >
+                    <span>&#128528;</span>
+                    <small>Okay</small>
+                </button>
+
+                <button
+                    class="mood-option"
+                    data-mood="low"
+                >
+                    <span>&#128532;</span>
+                    <small>Low</small>
+                </button>
+
+                <button
+                    class="mood-option"
+                    data-mood="difficult"
+                >
+                    <span>&#128546;</span>
+                    <small>Difficult</small>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- START SESSION -->
+
+        <section class="session-hero">
+
+            <div class="session-content">
+
+                <div class="session-icon">
+
+                    <i class="fa-solid fa-comments"></i>
+
+                </div>
+
+                <span class="small-label">
+                    PRIVATE AI-ASSISTED SUPPORT
+                </span>
+
+                <h2>
+                    Ready to talk?
+                </h2>
+
+                <p>
+                    Start a conversation in a space
+                    designed to listen, understand,
+                    and support you.
+                </p>
+
+                <div class="session-buttons">
+
+                    <button
+                        class="primary-session-button"
+                        id="startTextSession"
+                    >
+
+                        <i class="fa-solid fa-comment-dots"></i>
+
+                        Start text session
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                    <button
+                        class="secondary-session-button"
+                        id="startVoiceSession"
+                    >
+
+                        <i class="fa-solid fa-microphone"></i>
+
+                        Voice session
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="session-decoration">
+
+                <div class="orbit orbit-one"></div>
+
+                <div class="orbit orbit-two"></div>
+
+                <div class="session-orb">
+
+                    <i class="fa-solid fa-seedling"></i>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- LOWER GRID -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- RECENT SESSIONS -->
+
+            <section class="dashboard-card sessions-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="small-label">
+                            YOUR JOURNEY
+                        </span>
+
+                        <h2>
+                            Recent sessions
+                        </h2>
+
+                    </div>
+
+                    <button
+                        class="view-all"
+                        data-navigate="sessions"
+                    >
+
+                        View all
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="sessions-list"
+                    id="sessionsList"
+                ></div>
+
+            </section>
+
+
+            <!-- WELLBEING -->
+
+            <section class="dashboard-card wellbeing-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <span class="small-label">
+                            WELLBEING
+                        </span>
+
+                        <h2>
+                            Your journey
+                        </h2>
+
+                    </div>
+
+                    <i class="fa-solid fa-seedling card-heading-icon"></i>
+
+                </div>
+
+
+                <div class="wellbeing-content">
+
+                    <div class="wellbeing-circle">
+
+                        <span>0</span>
+
+                        <small>
+                            sessions
+                        </small>
+
+                    </div>
+
+                    <div class="wellbeing-text">
+
+                        <strong>
+                            Keep checking in
+                        </strong>
+
+                        <p>
+                            Your wellbeing journey
+                            starts with understanding
+                            how you feel.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="wellbeing-footer">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    Your wellbeing information
+                    is private.
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- PRIVACY -->
+
+        <div class="privacy-notice">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <div>
+
+                <strong>
+                    Your space, your privacy.
+                </strong>
+
+                <span>
+                    Your conversations are treated
+                    with care. AI-assisted sessions
+                    may be reviewed by authorised
+                    professionals when appropriate.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         MY SESSIONS
+    ====================================== -->
+
+    <section
+        class="dashboard-section"
+        id="section-sessions"
+    >
+
+        <div class="page-heading">
+
+            <span class="small-label">
+                YOUR JOURNEY
+            </span>
+
+            <h1>
+                My Sessions
+            </h1>
+
+            <p>
+                View and manage your previous
+                conversations and wellbeing sessions.
+            </p>
+
+        </div>
+
+
+        <div class="session-filter">
+
+            <button class="session-filter-btn active">
+                All Sessions
+            </button>
+
+            <button class="session-filter-btn">
+                Completed
+            </button>
+
+            <button class="session-filter-btn">
+                Under Review
+            </button>
+
+        </div>
+
+
+        <div
+            class="all-sessions-list"
+            id="allSessionsList"
+        ></div>
+
+
+        <button
+            class="new-session-button"
+            data-start-session="text"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Start a new session
+
+        </button>
+
+    </section>
+
+
+
+    <!-- =====================================
+         MY WELLBEING
+    ====================================== -->
+
+    <section
+        class="dashboard-section"
+        id="section-wellbeing"
+    >
+
+        <div class="page-heading">
+
+            <span class="small-label">
+                WELLBEING
+            </span>
+
+            <h1>
+                My Wellbeing
+            </h1>
+
+            <p>
+                Understand your journey through
+                your check-ins and sessions.
+            </p>
+
+        </div>
+
+
+        <div class="wellbeing-overview-grid">
+
+
+            <div class="wellbeing-stat-card">
+
+                <div class="stat-icon green">
+
+                    <i class="fa-solid fa-comments"></i>
+
+                </div>
+
+                <span>
+                    Total Sessions
+                </span>
+
+                <strong id="totalSessions">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="wellbeing-stat-card">
+
+                <div class="stat-icon blue">
+
+                    <i class="fa-solid fa-calendar-check"></i>
+
+                </div>
+
+                <span>
+                    Check-ins
+                </span>
+
+                <strong id="totalCheckins">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="wellbeing-stat-card">
+
+                <div class="stat-icon purple">
+
+                    <i class="fa-solid fa-heart-pulse"></i>
+
+                </div>
+
+                <span>
+                    Journey
+                </span>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="dashboard-card mood-history-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="small-label">
+                        CHECK-IN HISTORY
+                    </span>
+
+                    <h2>
+                        Your recent moods
+                    </h2>
+
+                </div>
+
+                <i class="fa-solid fa-chart-line card-heading-icon"></i>
+
+            </div>
+
+
+            <div
+                id="moodHistory"
+                class="mood-history"
+            ></div>
+
+        </div>
+
+
+        <div class="privacy-notice">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            <div>
+
+                <strong>
+                    Your wellbeing data is private.
+                </strong>
+
+                <span>
+                    Information displayed here belongs
+                    to your personal wellbeing journey.
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         NOTIFICATIONS
+    ====================================== -->
+
+    <section
+        class="dashboard-section"
+        id="section-notifications"
+    >
+
+        <div class="page-heading">
+
+            <span class="small-label">
+                UPDATES
+            </span>
+
+            <h1>
+                Notifications
+            </h1>
+
+            <p>
+                Important updates about your
+                Makivan Mind Care account and sessions.
+            </p>
+
+        </div>
+
+
+        <div
+            class="notifications-list"
+            id="notificationsList"
+        ></div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         SETTINGS
+    ====================================== -->
+
+    <section
+        class="dashboard-section"
+        id="section-settings"
+    >
+
+        <div class="page-heading">
+
+            <span class="small-label">
+                ACCOUNT
+            </span>
+
+            <h1>
+                Settings
+            </h1>
+
+            <p>
+                Manage your account and dashboard
+                preferences.
+            </p>
+
+        </div>
+
+
+        <div class="settings-grid">
+
+
+            <!-- PROFILE -->
+
+            <div class="dashboard-card settings-card">
+
+                <div class="settings-title">
+
+                    <div class="settings-icon green">
+
+                        <i class="fa-regular fa-user"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Profile information
+                        </strong>
+
+                        <span>
+                            Your personal account details
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="settings-field">
+
+                    <label>
+                        Full name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="settingsName"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="settings-field">
+
+                    <label>
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="settingsEmail"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="settings-field">
+
+                    <label>
+                        Phone number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="settingsPhone"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SECURITY -->
+
+            <div class="dashboard-card settings-card">
+
+                <div class="settings-title">
+
+                    <div class="settings-icon purple">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Security
+                        </strong>
+
+                        <span>
+                            Protect your account
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button class="settings-action">
+
+                    <i class="fa-solid fa-key"></i>
+
+                    <span>
+
+                        Change password
+
+                        <small>
+                            Update your account password
+                        </small>
+
+                    </span>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </button>
+
+
+                <button class="settings-action">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <span>
+
+                        Privacy & security
+
+                        <small>
+                            Manage your privacy preferences
+                        </small>
+
+                    </span>
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </button>
+
+            </div>
+
+
+
+            <!-- PREFERENCES -->
+
+            <div class="dashboard-card settings-card">
+
+                <div class="settings-title">
+
+                    <div class="settings-icon blue">
+
+                        <i class="fa-solid fa-sliders"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Preferences
+                        </strong>
+
+                        <span>
+                            Customize your experience
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="toggle-setting">
+
+                    <div>
+
+                        <strong>
+                            Notifications
+                        </strong>
+
+                        <small>
+                            Receive important updates
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div class="toggle-setting">
+
+                    <div>
+
+                        <strong>
+                            Voice sessions
+                        </strong>
+
+                        <small>
+                            Allow voice-based sessions
+                        </small>
+
+                    </div>
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="danger-zone">
+
+            <div>
+
+                <strong>
+                    Sign out of your account
+                </strong>
+
+                <span>
+                    End your current session on this device.
+                </span>
+
+            </div>
+
+
+            <button id="settingsLogout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                Sign out
+
+            </button>
+
+        </div>
+
+    </section>
+
+<!-- =====================================
+     SESSION DETAILS
+====================================== -->
+
+<section
+    class="dashboard-section"
+    id="section-session-details"
+>
+
+    <div class="page-heading">
+
+        <button
+            class="back-button"
+            id="backToSessions"
+        >
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to My Sessions
+        </button>
+
+        <span class="small-label">
+            SESSION DETAILS
+        </span>
+
+        <h1 id="detailSessionTitle">
+            Session Details
+        </h1>
+
+        <p id="detailSessionDate">
+            Session information
+        </p>
+
+    </div>
+
+
+    <!-- SESSION STATUS -->
+
+    <div class="session-detail-status">
+
+        <div class="detail-status-icon">
+            <i class="fa-solid fa-clock"></i>
+        </div>
+
+        <div>
+
+            <span>
+                SESSION STATUS
+            </span>
+
+            <strong id="detailSessionStatus">
+                Under Review
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- SESSION INFORMATION -->
+
+    <div class="session-detail-grid">
+
+
+        <!-- BASIC INFORMATION -->
+
+        <div class="dashboard-card detail-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="small-label">
+                        SESSION INFORMATION
+                    </span>
+
+                    <h2>
+                        About this session
+                    </h2>
+
+                </div>
+
+                <i class="fa-solid fa-circle-info card-heading-icon"></i>
+
+            </div>
+
+
+            <div class="detail-information">
+
+                <div class="detail-row">
+
+                    <span>
+                        Session type
+                    </span>
+
+                    <strong id="detailSessionType">
+                        Text Session
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Date
+                    </span>
+
+                    <strong id="detailSessionDateFull">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Duration
+                    </span>
+
+                    <strong id="detailSessionDuration">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-row">
+
+                    <span>
+                        Review status
+                    </span>
+
+                    <strong id="detailReviewStatus">
+                        Under Review
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- WELLBEING -->
+
+        <div class="dashboard-card detail-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span class="small-label">
+                        WELLBEING
+                    </span>
+
+                    <h2>
+                        Session check-in
+                    </h2>
+
+                </div>
+
+                <i class="fa-solid fa-heart-pulse card-heading-icon"></i>
+
+            </div>
+
+
+            <div class="detail-mood">
+
+                <span
+                    id="detailMoodEmoji"
+                    class="detail-mood-emoji"
+                >
+                    <i class="fa-solid fa-face-smile"></i>
+                </span>
+
+                <div>
+
+                    <strong id="detailMood">
+                        Not recorded
+                    </strong>
+
+                    <span>
+                        Mood during check-in
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONVERSATION -->
+
+    <div class="dashboard-card conversation-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="small-label">
+                    CONVERSATION
+                </span>
+
+                <h2>
+                    Session conversation
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-comments card-heading-icon"></i>
+
+        </div>
+
+
+        <div
+            class="conversation-container"
+            id="conversationContainer"
+        >
+
+            <!-- Messages will be inserted by JavaScript -->
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ADMIN REVIEW -->
+
+    <div class="dashboard-card admin-review-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <span class="small-label">
+                    PROFESSIONAL REVIEW
+                </span>
+
+                <h2>
+                    Review & Summary
+                </h2>
+
+            </div>
+
+            <i class="fa-solid fa-user-shield card-heading-icon"></i>
+
+        </div>
+
+
+        <div
+            class="review-pending"
+            id="reviewPending"
+        >
+
+            <div class="review-pending-icon">
+
+                <i class="fa-solid fa-hourglass-half"></i>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    Your session is being reviewed
+                </strong>
+
+                <p>
+                    The session information will be
+                    reviewed by an authorised professional.
+                    Once the review is complete, the
+                    approved summary will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- APPROVED SUMMARY -->
+
+        <div
+            class="approved-summary"
+            id="approvedSummary"
+            style="display: none;"
+        >
+
+            <div class="approved-summary-header">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <strong>
+                    Professionally reviewed summary
+                </strong>
+
+            </div>
+
+
+            <p id="approvedSummaryText">
+                —
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PRIVACY -->
+
+    <div class="privacy-notice">
+
+        <i class="fa-solid fa-shield-halved"></i>
+
+        <div>
+
+            <strong>
+                Your privacy matters.
+            </strong>
+
+            <span>
+                Session information is handled
+                according to Makivan Mind Care's
+                privacy and review process.
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- DASHBOARD JAVASCRIPT -->
+
+<script src="js/dashboard.js"></script>
+<script src="https://jsdelivr.net" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

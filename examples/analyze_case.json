@@ -1,0 +1,13 @@
+{
+  "client_id": "CASE-001",
+  "presenting_case": "I constantly think I'm going to fail. I avoid applying for jobs because I believe I'm not good enough.",
+  "history": [],
+  "goals": ["Improve confidence", "Apply for suitable jobs"],
+  "context": ["Recent employment uncertainty"],
+  "previous_interventions": [],
+  "counsellor_preferences": [],
+  "risk_responses": {
+    "immediate_danger": false,
+    "self_harm": false
+  }
+}
