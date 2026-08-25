@@ -1,33 +1,53 @@
 //Main javascript//
-const menuBtn = document.getElementById("menuBtn");
+// =========================================
+// MOBILE NAVIGATION
+// =========================================
 
-const navLinks = document.querySelector(".nav-links");
+document.addEventListener("DOMContentLoaded", function () {
+
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.querySelector(".nav-links");
 
 
-//mobile navigation//
-menuBtn.addEventListener("click", () => {
-    navLinks.classList.toggle("mobile-active");
+    if (!menuBtn || !navLinks) return;
 
-});
 
-// Close menu when a link is clicked
-document.addEventListener('DOMContentLoaded', function() {
-    const navLink = document.querySelectorAll("header .nav-link a");
-    navLink.forEach(link => {
-        link.addEventListener('click', function() {
-            const navLinks = document.querySelector('.nav-links');
-            const menuBtn = document.getElementById('menuBtn');
-            if (navLinks) {
-                navLinks.classList.remove('active');
-            }
-            if (menuBtn) {
-                menuBtn.classList.remove('active');
-            }
-            document.body.style.overflow = '';
-        });
+    // =====================================
+    // OPEN / CLOSE MENU WITH MENU BUTTON
+    // =====================================
+
+    menuBtn.addEventListener("click", function () {
+
+        navLinks.classList.toggle("mobile-active");
+
+        menuBtn.classList.toggle("active");
+
     });
-});
 
+
+    // =====================================
+    // CLOSE MENU WHEN A LINK IS CLICKED
+    // =====================================
+
+    navLinks.addEventListener("click", function (e) {
+
+        const link = e.target.closest("a");
+
+
+        // Only continue if an actual link was clicked
+        if (!link) return;
+
+
+        // Close mobile menu
+        navLinks.classList.remove("mobile-active");
+
+
+        // Remove active state from hamburger
+        menuBtn.classList.remove("active");
+
+    });
+
+});
 //scroll effect//
 window.addEventListener("scroll", () => {
     const navbar = document.querySelector(".navbar");

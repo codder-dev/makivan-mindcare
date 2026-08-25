@@ -38,12 +38,11 @@ function showMessage(element, message, type) {
 
 }
 
-
 // =========================================
 // PASSWORD TOGGLE FUNCTION
 // =========================================
 
-function setupPasswordToggle(buttonId,inputId) {
+function setupPasswordToggle(buttonId, inputId) {
 
     const button =
         document.getElementById(buttonId);
@@ -55,23 +54,48 @@ function setupPasswordToggle(buttonId,inputId) {
     if (!button || !input) return;
 
 
+    const icon =
+        button.querySelector("i");
+
+
     button.addEventListener(
         "click",
         function () {
 
             if (input.type === "password") {
 
+                // Show password
                 input.type = "text";
 
-                button.textContent = "🙈";
 
-                button.setAttribute("aria-label", "Hide password");
+                icon.classList.remove(
+                    "fa-eye"
+                );
+
+                icon.classList.add(
+                    "fa-eye-slash"
+                );
+
+
+                button.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
 
             } else {
 
+                // Hide password
                 input.type = "password";
 
-                button.textContent = '<i class="fa-solid fa-eye"></i>';
+
+                icon.classList.remove(
+                    "fa-eye-slash"
+                );
+
+                icon.classList.add(
+                    "fa-eye"
+                );
+
 
                 button.setAttribute(
                     "aria-label",
