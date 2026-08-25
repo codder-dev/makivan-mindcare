@@ -5,7 +5,7 @@
 
 
 // =========================================
-// GET USER
+// GET LOGGED-IN USER
 // =========================================
 
 function getLoggedInUser() {
@@ -16,10 +16,8 @@ function getLoggedInUser() {
     const sessionUser =
         sessionStorage.getItem("makivanUser");
 
-
     const userData =
         localUser || sessionUser;
-
 
     if (!userData) {
 
@@ -27,9 +25,7 @@ function getLoggedInUser() {
             "login.html";
 
         return null;
-
     }
-
 
     try {
 
@@ -46,9 +42,7 @@ function getLoggedInUser() {
             "login.html";
 
         return null;
-
     }
-
 }
 
 
@@ -84,6 +78,9 @@ if (!activeSessionId) {
     window.location.href =
         "dashboard.html";
 
+    throw new Error(
+        "No active session."
+    );
 }
 
 
@@ -110,6 +107,9 @@ if (!session) {
     window.location.href =
         "dashboard.html";
 
+    throw new Error(
+        "Session not found."
+    );
 }
 
 
@@ -201,7 +201,9 @@ function saveCurrentUser() {
 if (sessionMood) {
 
     sessionMood.textContent =
-        session.mood || "—";
+        formatMood(
+            session.mood
+        );
 
 }
 
@@ -209,8 +211,164 @@ if (sessionMood) {
 if (sessionType) {
 
     sessionType.textContent =
-        session.sessionType || "Text";
+        formatSessionType(
+            session.sessionType
+        );
 
+}
+
+
+// =========================================
+// FORMAT SESSION TYPE
+// =========================================
+
+function formatSessionType(type) {
+
+    if (!type) {
+        return "Text";
+    }
+
+    const types = {
+
+        text:
+            "Text",
+
+        voice:
+            "Voice"
+
+    };
+
+    return types[type] ||
+        type;
+}
+
+
+// =========================================
+// FORMAT MOOD
+// =========================================
+
+function formatMood(mood) {
+
+    if (!mood) {
+        return "Not recorded";
+    }
+
+    const moods = {
+
+        great:
+            "Great 😊",
+
+        good:
+            "Good 🙂",
+
+        okay:
+            "Okay 😐",
+
+        low:
+            "Low 😔",
+
+        difficult:
+            "Difficult 😢"
+
+    };
+
+    return moods[mood] ||
+        mood;
+}
+
+
+// =========================================
+// FORMAT CLIENT CATEGORY
+// =========================================
+
+function formatClientCategory(category) {
+
+    if (!category) {
+        return "individual";
+    }
+
+    const categories = {
+
+        individual:
+            "individual",
+
+        teen:
+            "teen or young person",
+
+        young:
+            "young person",
+
+        couple:
+            "couple",
+
+        family:
+            "family",
+
+        other:
+            "individual"
+
+    };
+
+    return categories[category] ||
+        category;
+}
+
+
+// =========================================
+// FORMAT REASON
+// =========================================
+
+function formatReason(reason) {
+
+    if (!reason) {
+        return "what they are currently experiencing";
+    }
+
+    const reasons = {
+
+        stress:
+            "stress",
+
+        anxiety:
+            "anxiety or worry",
+
+        relationships:
+            "relationship concerns",
+
+        family:
+            "family concerns",
+
+        school:
+            "school or academic concerns",
+
+        work:
+            "work-related concerns",
+
+        loneliness:
+            "loneliness",
+
+        sadness:
+            "sadness or low mood",
+
+        anger:
+            "anger or frustration",
+
+        grief:
+            "loss or grief",
+
+        selfesteem:
+            "self-esteem or confidence",
+
+        overwhelmed:
+            "feeling overwhelmed",
+
+        other:
+            "what they are currently experiencing"
+
+    };
+
+    return reasons[reason] ||
+        reason;
 }
 
 
@@ -220,25 +378,25 @@ if (sessionType) {
 
 function renderMessages() {
 
-    if (!conversationMessages) return;
-
+    if (!conversationMessages) {
+        return;
+    }
 
     conversationMessages.innerHTML = "";
-
 
     const messages =
         session.messages || [];
 
+    messages.forEach(
+        function (message) {
 
-    messages.forEach(function (message) {
+            addMessageToScreen(
+                message.sender,
+                message.text
+            );
 
-        addMessageToScreen(
-            message.sender,
-            message.text
-        );
-
-    });
-
+        }
+    );
 }
 
 
@@ -252,16 +410,18 @@ function addMessageToScreen(
 ) {
 
     const wrapper =
-        document.createElement("div");
-
+        document.createElement(
+            "div"
+        );
 
     wrapper.className =
         `message ${sender}`;
 
 
     const avatar =
-        document.createElement("div");
-
+        document.createElement(
+            "div"
+        );
 
     avatar.className =
         sender === "ai"
@@ -276,16 +436,18 @@ function addMessageToScreen(
 
 
     const content =
-        document.createElement("div");
-
+        document.createElement(
+            "div"
+        );
 
     content.className =
         "message-content";
 
 
     const label =
-        document.createElement("span");
-
+        document.createElement(
+            "span"
+        );
 
     label.className =
         "message-label";
@@ -298,21 +460,31 @@ function addMessageToScreen(
 
 
     const textElement =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     textElement.textContent =
         text;
 
 
-    content.appendChild(label);
+    content.appendChild(
+        label
+    );
 
-    content.appendChild(textElement);
+    content.appendChild(
+        textElement
+    );
 
 
-    wrapper.appendChild(avatar);
+    wrapper.appendChild(
+        avatar
+    );
 
-    wrapper.appendChild(content);
+    wrapper.appendChild(
+        content
+    );
 
 
     conversationMessages.appendChild(
@@ -321,7 +493,6 @@ function addMessageToScreen(
 
 
     scrollToBottom();
-
 }
 
 
@@ -331,16 +502,22 @@ function addMessageToScreen(
 
 function scrollToBottom() {
 
-    window.scrollTo({
+    setTimeout(
+        function () {
 
-        top:
-            document.body.scrollHeight,
+            window.scrollTo({
 
-        behavior:
-            "smooth"
+                top:
+                    document.body.scrollHeight,
 
-    });
+                behavior:
+                    "smooth"
 
+            });
+
+        },
+        50
+    );
 }
 
 
@@ -348,138 +525,170 @@ function scrollToBottom() {
 // INPUT STATE
 // =========================================
 
-messageInput.addEventListener(
-    "input",
-    function () {
+if (messageInput) {
 
-        const hasText =
-            messageInput.value.trim().length > 0;
+    messageInput.addEventListener(
+        "input",
+        function () {
 
-
-        sendMessageButton.disabled =
-            !hasText;
-
-
-        // Auto resize
-
-        messageInput.style.height =
-            "auto";
+            const hasText =
+                messageInput.value
+                    .trim()
+                    .length > 0;
 
 
-        messageInput.style.height =
-            Math.min(
-                messageInput.scrollHeight,
-                130
-            ) + "px";
+            if (sendMessageButton) {
 
-    }
-);
+                sendMessageButton.disabled =
+                    !hasText;
+
+            }
+
+
+            messageInput.style.height =
+                "auto";
+
+
+            messageInput.style.height =
+                Math.min(
+                    messageInput.scrollHeight,
+                    130
+                ) + "px";
+
+        }
+    );
+}
 
 
 // =========================================
 // SEND MESSAGE
 // =========================================
 
-messageForm.addEventListener(
-    "submit",
-    function (event) {
+if (messageForm) {
 
-        event.preventDefault();
+    messageForm.addEventListener(
+        "submit",
+        function (event) {
 
-
-        const text =
-            messageInput.value.trim();
+            event.preventDefault();
 
 
-        if (!text) return;
+            const text =
+                messageInput.value.trim();
 
 
-        // Add user message
-
-        const userMessage = {
-
-            sender: "user",
-
-            text: text,
-
-            timestamp:
-                new Date().toISOString()
-
-        };
+            if (!text) {
+                return;
+            }
 
 
-        if (!session.messages) {
+            // -----------------------------
+            // USER MESSAGE
+            // -----------------------------
 
-            session.messages = [];
+            const userMessage = {
+
+                sender:
+                    "user",
+
+                text:
+                    text,
+
+                timestamp:
+                    new Date().toISOString()
+
+            };
+
+
+            if (!session.messages) {
+
+                session.messages = [];
+
+            }
+
+
+            session.messages.push(
+                userMessage
+            );
+
+
+            saveCurrentUser();
+
+
+            addMessageToScreen(
+                "user",
+                text
+            );
+
+
+            // -----------------------------
+            // CLEAR INPUT
+            // -----------------------------
+
+            messageInput.value = "";
+
+            messageInput.style.height =
+                "auto";
+
+
+            if (sendMessageButton) {
+
+                sendMessageButton.disabled =
+                    true;
+
+            }
+
+
+            // -----------------------------
+            // AI RESPONSE
+            // -----------------------------
+
+            simulateAIResponse();
 
         }
-
-
-        session.messages.push(
-            userMessage
-        );
-
-
-        saveCurrentUser();
-
-
-        addMessageToScreen(
-            "user",
-            text
-        );
-
-
-        // Clear input
-
-        messageInput.value = "";
-
-        messageInput.style.height =
-            "auto";
-
-        sendMessageButton.disabled =
-            true;
-
-
-        // Simulated AI response
-
-        simulateAIResponse();
-
-    }
-);
+    );
+}
 
 
 // =========================================
 // ENTER TO SEND
 // =========================================
 
-messageInput.addEventListener(
-    "keydown",
-    function (event) {
+if (messageInput) {
 
-        if (
-            event.key === "Enter" &&
-            !event.shiftKey
-        ) {
+    messageInput.addEventListener(
+        "keydown",
+        function (event) {
 
-            event.preventDefault();
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
 
-            messageForm.requestSubmit();
+                event.preventDefault();
+
+                messageForm.requestSubmit();
+
+            }
 
         }
-
-    }
-);
+    );
+}
 
 
 // =========================================
-// TEMPORARY AI RESPONSE
+// SIMULATED AI RESPONSE
 // =========================================
 
 function simulateAIResponse() {
 
-    typingIndicator.classList.add(
-        "active"
-    );
+    if (typingIndicator) {
+
+        typingIndicator.classList.add(
+            "active"
+        );
+
+    }
 
 
     scrollToBottom();
@@ -488,25 +697,38 @@ function simulateAIResponse() {
     setTimeout(
         function () {
 
-            typingIndicator.classList.remove(
-                "active"
-            );
+            if (typingIndicator) {
+
+                typingIndicator.classList.remove(
+                    "active"
+                );
+
+            }
 
 
             const response =
-                generateTemporaryResponse();
+                generateContextualResponse();
 
 
             const aiMessage = {
 
-                sender: "ai",
+                sender:
+                    "ai",
 
-                text: response,
+                text:
+                    response,
 
                 timestamp:
                     new Date().toISOString()
 
             };
+
+
+            if (!session.messages) {
+
+                session.messages = [];
+
+            }
 
 
             session.messages.push(
@@ -525,27 +747,120 @@ function simulateAIResponse() {
         },
         1800
     );
-
 }
 
 
 // =========================================
-// TEMPORARY RESPONSE ENGINE
+// CONTEXTUAL RESPONSE ENGINE
 // =========================================
 
-function generateTemporaryResponse() {
+function generateContextualResponse() {
+
+    const category =
+        formatClientCategory(
+            session.clientCategory
+        );
+
+
+    const reason =
+        formatReason(
+            session.reason
+        );
+
+
+    const mood =
+        formatMood(
+            session.mood
+        );
+
+
+    const messages =
+        session.messages || [];
+
+
+    /*
+     * Number of user messages
+     */
+
+    const userMessages =
+        messages.filter(
+            function (message) {
+
+                return message.sender ===
+                    "user";
+
+            }
+        );
+
+
+    const messageCount =
+        userMessages.length;
+
+
+    // =====================================
+    // FIRST RESPONSE
+    // =====================================
+
+    if (messageCount === 1) {
+
+        return (
+            `Thank you for opening up. ` +
+            `Since you're seeking support around ${reason}, ` +
+            `I'd like to understand your experience rather than make assumptions. ` +
+            `What has been happening recently that made you decide to talk about this today?`
+        );
+
+    }
+
+
+    // =====================================
+    // SECOND RESPONSE
+    // =====================================
+
+    if (messageCount === 2) {
+
+        return (
+            `I hear what you're saying. ` +
+            `It sounds like this has been affecting you in an important way. ` +
+            `When you think about everything that is happening, ` +
+            `what part feels the hardest for you to deal with right now?`
+        );
+
+    }
+
+
+    // =====================================
+    // THIRD RESPONSE
+    // =====================================
+
+    if (messageCount === 3) {
+
+        return (
+            `Thank you for explaining that more clearly. ` +
+            `It can help to look at both what is happening around you ` +
+            `and how you are experiencing it internally. ` +
+            `How has this situation been affecting your daily life, relationships, ` +
+            `school, work, or ability to enjoy things?`
+        );
+
+    }
+
+
+    // =====================================
+    // LATER CONVERSATION
+    // =====================================
 
     const responses = [
 
-        "Thank you for sharing that with me. Take your time. Can you tell me a little more about what has been happening?",
+        `That gives us something important to explore. What do you feel you need most right now — someone to listen, help understanding the situation, or ideas for how you might handle it?`,
 
-        "I hear you. It sounds like this has been weighing on you. What part of the situation feels most difficult right now?",
+        `I appreciate you continuing to share. When this situation becomes difficult, what usually helps you feel even a little better or more in control?`,
 
-        "Thank you for being open about that. How has this situation been affecting you recently?",
+        `There may be several things contributing to how you're feeling. Is there something that happened recently that made these feelings stronger?`,
 
-        "That sounds like something worth exploring together. What do you think has contributed most to how you're feeling?",
+        `It sounds like this has been taking up quite a bit of emotional space. What would you hope could be different after getting support with this?`,
 
-        "I understand. Before we continue, what would you most like to gain from this conversation?"
+        `Let's take this one step at a time. Is there another part of this situation that you feel I should understand?`
 
     ];
 
@@ -556,7 +871,6 @@ function generateTemporaryResponse() {
             responses.length
         )
     ];
-
 }
 
 
@@ -565,6 +879,12 @@ function generateTemporaryResponse() {
 // =========================================
 
 function showOpeningMessage() {
+
+    /*
+     * IMPORTANT:
+     * If messages already exist,
+     * this is a resumed session.
+     */
 
     if (
         session.messages &&
@@ -576,18 +896,51 @@ function showOpeningMessage() {
     }
 
 
+    const category =
+        formatClientCategory(
+            session.clientCategory
+        );
+
+
+    const reason =
+        formatReason(
+            session.reason
+        );
+
+
+    const mood =
+        formatMood(
+            session.mood
+        );
+
+
     const openingNote =
         session.openingNote;
 
 
     let message =
-        "Hello. I'm here to listen and support you through this conversation. Take your time — there is no need to rush.";
+        `Hello. I'm here to listen and support you. ` +
+        `Since this is a ${category} support session, ` +
+        `we can take things at your own pace. ` +
+        `You indicated that you're currently experiencing ${reason}, ` +
+        `and your starting mood was ${mood}. ` +
+        `You don't have to explain everything at once. ` +
+        `What would you like to talk about first?`;
 
+
+    /*
+     * If the user provided
+     * an opening note.
+     */
 
     if (openingNote) {
 
         message =
-            "Thank you for sharing that with me. I've noted what you've shared. When you're ready, tell me a little more about what you're experiencing.";
+            `Thank you for sharing that with me. ` +
+            `I've noted what you wrote about your situation. ` +
+            `You don't need to repeat everything. ` +
+            `When you're ready, tell me a little more about what has been happening ` +
+            `and how it has been affecting you.`;
 
     }
 
@@ -596,9 +949,11 @@ function showOpeningMessage() {
 
         {
 
-            sender: "ai",
+            sender:
+                "ai",
 
-            text: message,
+            text:
+                message,
 
             timestamp:
                 new Date().toISOString()
@@ -615,7 +970,6 @@ function showOpeningMessage() {
         "ai",
         message
     );
-
 }
 
 
@@ -625,7 +979,9 @@ function showOpeningMessage() {
 
 let sessionStartTime =
     session.startedAt
-        ? new Date(session.startedAt)
+        ? new Date(
+            session.startedAt
+        )
         : new Date();
 
 
@@ -637,8 +993,10 @@ function updateTimer() {
 
     const elapsed =
         Math.floor(
-            (now - sessionStartTime) /
-            1000
+            (
+                now -
+                sessionStartTime
+            ) / 1000
         );
 
 
@@ -655,9 +1013,11 @@ function updateTimer() {
     if (sessionTimer) {
 
         sessionTimer.textContent =
-            String(minutes).padStart(2, "0") +
+            String(minutes)
+                .padStart(2, "0") +
             ":" +
-            String(seconds).padStart(2, "0");
+            String(seconds)
+                .padStart(2, "0");
 
     }
 
@@ -689,12 +1049,24 @@ if (backToDashboard) {
         "click",
         function () {
 
+            /*
+             * Session remains IN PROGRESS.
+             * This allows the dashboard to
+             * resume it later.
+             */
+
+            session.lastActiveAt =
+                new Date().toISOString();
+
+
+            saveCurrentUser();
+
+
             window.location.href =
                 "dashboard.html#sessions";
 
         }
     );
-
 }
 
 
@@ -732,7 +1104,10 @@ const confirmEndSession =
     );
 
 
-if (endSessionButton) {
+if (
+    endSessionButton &&
+    endSessionModal
+) {
 
     endSessionButton.addEventListener(
         "click",
@@ -748,11 +1123,19 @@ if (endSessionButton) {
 }
 
 
+// =========================================
+// CLOSE END SESSION MODAL
+// =========================================
+
 function closeEndSessionModal() {
 
-    endSessionModal.classList.remove(
-        "active"
-    );
+    if (endSessionModal) {
+
+        endSessionModal.classList.remove(
+            "active"
+        );
+
+    }
 
 }
 
@@ -798,9 +1181,14 @@ if (confirmEndSession) {
 
 
             const durationSeconds =
-                Math.floor(
-                    (endedAt - startedAt) /
-                    1000
+                Math.max(
+                    0,
+                    Math.floor(
+                        (
+                            endedAt -
+                            startedAt
+                        ) / 1000
+                    )
                 );
 
 
@@ -819,6 +1207,10 @@ if (confirmEndSession) {
 
 
             session.endedAt =
+                endedAt.toISOString();
+
+
+            session.lastActiveAt =
                 endedAt.toISOString();
 
 
@@ -843,7 +1235,6 @@ if (confirmEndSession) {
 
         }
     );
-
 }
 
 

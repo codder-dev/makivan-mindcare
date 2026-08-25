@@ -61,7 +61,12 @@ if (!currentUser) {
         "No logged-in user."
     );
 }
+// =========================================
+// SESSION INACTIVITY SETTINGS
+// =========================================
 
+const SESSION_TIMEOUT =
+    30 * 60 * 1000; // 30 minutes
 
 // =========================================
 // USER DATA
@@ -938,13 +943,13 @@ function showSection(sectionName) {
     closeSidebar();
 
 
-    // Section-specific rendering
     if (sectionName === "sessions") {
 
-        renderAllSessions();
+    renderAllSessions();
 
-    }
+    initializeSessionFilter();
 
+}
 
     if (sectionName === "wellbeing") {
 
@@ -1045,7 +1050,77 @@ document
         }
     );
 
+// =========================================
+// CHECK FOR INACTIVE SESSIONS
+// =========================================
 
+function checkInactiveSessions() {
+
+    const sessions =
+        currentUser.sessions || [];
+
+    const now =
+        Date.now();
+
+    let changed = false;
+
+
+    sessions.forEach(function (session) {
+
+        // Only check sessions that are still active
+
+        if (
+            session.status !== "In Progress"
+        ) {
+            return;
+        }
+
+
+        const lastActive =
+            session.lastActiveAt
+                ? new Date(
+                    session.lastActiveAt
+                ).getTime()
+                : new Date(
+                    session.startedAt
+                ).getTime();
+
+
+        const inactiveTime =
+            now - lastActive;
+
+
+        if (
+            inactiveTime >=
+            SESSION_TIMEOUT
+        ) {
+
+            session.status =
+                "Incomplete";
+
+
+            session.autoEnded =
+                true;
+
+
+            session.autoEndedAt =
+                new Date().toISOString();
+
+
+            changed = true;
+
+        }
+
+    });
+
+
+    if (changed) {
+
+        saveCurrentUser();
+
+    }
+
+}
 // =========================================
 // LOAD SECTION FROM URL
 // =========================================
@@ -1112,9 +1187,46 @@ function loadInitialSection() {
 
 }
 
+checkInactiveSessions();
+
+createResumeNotifications();
 
 loadInitialSection();
 
+// =========================================
+// FORMAT SESSION DATE
+// =========================================
+
+function formatSessionDate(dateString) {
+
+    if (!dateString) {
+
+        return "Recent";
+
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    if (isNaN(date.getTime())) {
+
+        return "Recent";
+
+    }
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            month: "numeric",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+
+}
 
 // =========================================
 // MY SESSIONS
@@ -1134,6 +1246,10 @@ function renderAllSessions() {
     const sessions =
         currentUser.sessions || [];
 
+
+    // =====================================
+    // NO SESSIONS
+    // =====================================
 
     if (sessions.length === 0) {
 
@@ -1161,80 +1277,86 @@ function renderAllSessions() {
     }
 
 
+    // =====================================
+    // RENDER SESSIONS
+    // =====================================
+
     container.innerHTML =
         sessions
             .slice()
             .reverse()
-            .map(
-                function (session, index) {
+            .map(function (session) {
 
-                    const icon =
-                        session.type === "voice"
-                            ? "fa-microphone"
-                            : "fa-comment-dots";
-
-
-                    /*
-                     * We use the real session ID
-                     * when available.
-                     */
-
-                    const sessionId =
-                        session.id;
+                const icon =
+                    session.communicationType === "voice"
+                        ? "fa-microphone"
+                        : "fa-comment-dots";
 
 
-                    return `
-
-                        <div
-                            class="session-item clickable-session"
-                            data-session-id="${sessionId}"
-                        >
-
-                            <div class="session-type-icon">
-
-                                <i class="fa-solid ${icon}"></i>
-
-                            </div>
+                const title =
+                    session.title ||
+                    "Mind Care Session";
 
 
-                            <div class="session-item-info">
-
-                                <strong>
-                                    ${session.title ||
-                                    "Mind Care Session"}
-                                </strong>
-
-                                <span>
-                                    ${session.date || "Recent"}
-                                    ·
-                                    ${session.duration || "—"}
-                                </span>
-
-                            </div>
+                const status =
+                    session.status ||
+                    "Completed";
 
 
-                            <span class="session-status">
+                return `
 
-                                ${session.status ||
-                                "Completed"}
+                    <div
+                        class="session-item clickable-session"
+                        data-session-id="${session.id}"
+                    >
 
-                            </span>
+                        <div class="session-type-icon">
 
-
-                            <i class="fa-solid fa-chevron-right session-arrow"></i>
+                            <i class="fa-solid ${icon}"></i>
 
                         </div>
 
-                    `;
 
-                }
-            )
+                        <div class="session-item-info">
+
+                            <strong>
+                                ${title}
+                            </strong>
+
+
+                            <span>
+                                ${formatSessionDate(
+                                    session.startedAt
+                                )}
+                                ·
+                                ${session.duration || "—"}
+                            </span>
+
+                        </div>
+
+
+                        <span class="session-status">
+
+                            ${status}
+
+                        </span>
+
+
+                        <i
+                            class="fa-solid fa-chevron-right session-arrow"
+                        ></i>
+
+                    </div>
+
+                `;
+
+            })
             .join("");
 
 
-    /*
-     * Make every session clickable
-     */
+    // =====================================
+    // MAKE SESSION CARDS CLICKABLE
+    // =====================================
 
     container
         .querySelectorAll(
@@ -1251,7 +1373,7 @@ function renderAllSessions() {
                             sessionElement.dataset.sessionId;
 
 
-                        openSessionDetails(
+                        handleSessionClick(
                             sessionId
                         );
 
@@ -1263,10 +1385,116 @@ function renderAllSessions() {
 
 }
 // =========================================
+// HANDLE SESSION CLICK
+// =========================================
+
+function handleSessionClick(sessionId) {
+
+    const session =
+        (currentUser.sessions || [])
+            .find(
+                function (item) {
+
+                    return String(item.id) ===
+                        String(sessionId);
+
+                }
+            );
+
+
+    // =====================================
+    // SESSION NOT FOUND
+    // =====================================
+
+    if (!session) {
+
+        console.warn(
+            "Session not found:",
+            sessionId
+        );
+
+        return;
+
+    }
+
+
+    // =====================================
+    // SESSION STILL IN PROGRESS
+    // =====================================
+
+    if (
+        session.status ===
+        "In Progress"
+    ) {
+
+        // Remember which session
+        // the user wants to continue
+
+        sessionStorage.setItem(
+            "activeSessionId",
+            session.id
+        );
+
+
+        // Update activity time
+
+        session.lastActiveAt =
+            new Date().toISOString();
+
+
+        saveCurrentUser();
+
+
+        // Reopen the SAME conversation
+
+        window.location.href =
+            "text-session.html";
+
+
+        return;
+
+    }
+
+
+    // =====================================
+    // SESSION COMPLETED
+    // =====================================
+
+    if (
+        session.status ===
+        "Completed"
+    ) {
+
+        openSessionDetails(
+            session.id
+        );
+
+
+        return;
+
+    }
+
+
+    // =====================================
+    // OTHER SESSION STATUS
+    // =====================================
+
+    openSessionDetails(
+        session.id
+    );
+
+}
+// =========================================
 // OPEN SESSION DETAILS
 // =========================================
 
 function openSessionDetails(sessionId) {
+
+    console.log(
+        "Opening session:",
+        sessionId
+    );
+
 
     const sessions =
         currentUser.sessions || [];
@@ -1283,6 +1511,10 @@ function openSessionDetails(sessionId) {
         );
 
 
+    // =====================================
+    // SESSION NOT FOUND
+    // =====================================
+
     if (!session) {
 
         console.warn(
@@ -1295,9 +1527,9 @@ function openSessionDetails(sessionId) {
     }
 
 
-    /*
-     * Hide every section
-     */
+    // =====================================
+    // HIDE ALL DASHBOARD SECTIONS
+    // =====================================
 
     dashboardSections.forEach(
         function (section) {
@@ -1306,13 +1538,19 @@ function openSessionDetails(sessionId) {
                 "active-section"
             );
 
+            section.style.setProperty(
+                "display",
+                "none",
+                "important"
+            );
+
         }
     );
 
 
-    /*
-     * Show session details
-     */
+    // =====================================
+    // FIND DETAILS SECTION
+    // =====================================
 
     const detailsSection =
         document.getElementById(
@@ -1320,18 +1558,38 @@ function openSessionDetails(sessionId) {
         );
 
 
-    if (detailsSection) {
+    if (!detailsSection) {
 
-        detailsSection.classList.add(
-            "active-section"
+        console.error(
+            "Session details section not found. " +
+            "Make sure your HTML has " +
+            'id="section-session-details".'
         );
+
+        return;
 
     }
 
 
-    /*
-     * Remove active sidebar state
-     */
+    // =====================================
+    // SHOW DETAILS SECTION
+    // =====================================
+
+    detailsSection.classList.add(
+        "active-section"
+    );
+
+
+    detailsSection.style.setProperty(
+        "display",
+        "block",
+        "important"
+    );
+
+
+    // =====================================
+    // REMOVE SIDEBAR ACTIVE STATE
+    // =====================================
 
     navigationItems.forEach(
         function (item) {
@@ -1344,9 +1602,9 @@ function openSessionDetails(sessionId) {
     );
 
 
-    /*
-     * Update URL
-     */
+    // =====================================
+    // UPDATE URL
+    // =====================================
 
     history.replaceState(
         null,
@@ -1355,9 +1613,9 @@ function openSessionDetails(sessionId) {
     );
 
 
-    /*
-     * Fill session information
-     */
+    // =====================================
+    // FILL SESSION INFORMATION
+    // =====================================
 
     const title =
         document.getElementById(
@@ -1401,50 +1659,76 @@ function openSessionDetails(sessionId) {
         );
 
 
-    if (title)
+    if (title) {
+
         title.textContent =
             session.title ||
             "Mind Care Session";
 
+    }
 
-    if (date)
+
+    if (date) {
+
         date.textContent =
             session.date ||
             "Recent session";
 
+    }
 
-    if (status)
+
+    if (status) {
+
         status.textContent =
             session.status ||
             "Completed";
 
+    }
 
-    if (type)
+
+    if (type) {
+
         type.textContent =
-            session.type === "voice"
+            session.communicationType === "voice" ||
+            session.sessionType === "voice"
                 ? "Voice Session"
                 : "Text Session";
 
+    }
 
-    if (fullDate)
+
+    if (fullDate) {
+
         fullDate.textContent =
-            session.date || "—";
+            session.date ||
+            formatSessionDate(
+                session.startedAt
+            );
+
+    }
 
 
-    if (duration)
+    if (duration) {
+
         duration.textContent =
-            session.duration || "—";
+            session.duration ||
+            "In progress";
+
+    }
 
 
-    if (reviewStatus)
+    if (reviewStatus) {
+
         reviewStatus.textContent =
             session.status ||
             "Completed";
 
+    }
 
-    /*
-     * Mood
-     */
+
+    // =====================================
+    // MOOD
+    // =====================================
 
     const mood =
         session.mood ||
@@ -1481,7 +1765,8 @@ function openSessionDetails(sessionId) {
     if (moodEmoji) {
 
         moodEmoji.textContent =
-            moodIcons[mood] || "🙂";
+            moodIcons[mood] ||
+            "🙂";
 
     }
 
@@ -1496,22 +1781,44 @@ function openSessionDetails(sessionId) {
     }
 
 
-    /*
-     * Conversation
-     */
+    // =====================================
+    // CONVERSATION
+    // =====================================
 
     renderConversation(
         session
     );
 
 
-    /*
-     * Admin summary
-     */
+    // =====================================
+    // ADMIN REVIEW
+    // =====================================
 
     renderSessionReview(
         session
     );
+
+
+    // =====================================
+    // RESUME SESSION
+    // =====================================
+
+    /*
+     * If the session is still in progress,
+     * remember it so the user can continue.
+     */
+
+    if (
+        session.status ===
+        "In Progress"
+    ) {
+
+        sessionStorage.setItem(
+            "activeSessionId",
+            session.id
+        );
+
+    }
 
 }
 // =========================================
@@ -1789,19 +2096,25 @@ function renderMoodHistory() {
     }
 
 
-    const moodIcons = {
+ const moodIcons = {
 
-        great: "😊",
+    great: "😊",
 
-        good: "🙂",
+    good: "🙂",
 
-        okay: "😐",
+    okay: "😐",
 
-        low: "😔",
+    neutral: "😐",
 
-        difficult: "😢"
+    low: "😔",
 
-    };
+    anxious: "😟",
+
+    "very-low": "😢",
+
+    difficult: "😢"
+
+};
 
 
     container.innerHTML =
@@ -1863,40 +2176,29 @@ const sessionTypeOptions =
     );
 
 
-sessionTypeOptions.forEach(
-    function (option) {
+sessionTypeOptions.forEach(function (option) {
 
-        option.addEventListener(
-            "click",
-            function () {
+    option.addEventListener("click", function () {
 
-                sessionTypeOptions.forEach(
-                    function (item) {
+        sessionTypeOptions.forEach(function (item) {
 
-                        item.classList.remove(
-                            "selected"
-                        );
+            item.classList.remove("selected");
 
-                    }
-                );
+        });
 
 
-                option.classList.add(
-                    "selected"
-                );
+        option.classList.add("selected");
 
 
-                selectedSessionType =
-                    option.dataset.sessionType;
+        selectedSessionType =
+            option.dataset.sessionType;
 
 
-                updateStartSessionButton();
+        updateStartSessionButton();
 
-            }
-        );
+    });
 
-    }
-);
+});
 
 
 // =========================================
@@ -1909,86 +2211,66 @@ const reasonOptions =
     );
 
 
-reasonOptions.forEach(
-    function (option) {
+reasonOptions.forEach(function (option) {
 
-        option.addEventListener(
-            "click",
-            function () {
+    option.addEventListener("click", function () {
 
-                reasonOptions.forEach(
-                    function (item) {
+        reasonOptions.forEach(function (item) {
 
-                        item.classList.remove(
-                            "selected"
-                        );
+            item.classList.remove("selected");
 
-                    }
-                );
+        });
 
 
-                option.classList.add(
-                    "selected"
-                );
+        option.classList.add("selected");
 
 
-                selectedReason =
-                    option.dataset.reason;
+        selectedReason =
+            option.dataset.reason;
 
 
-                updateStartSessionButton();
+        updateStartSessionButton();
 
-            }
-        );
+    });
 
-    }
-);
+});
 
 
 // =========================================
-// MOOD
+// SESSION MOOD
 // =========================================
 
 const moodOptions =
     document.querySelectorAll(
-        ".mood-option"
+        "#section-session-setup .mood-option"
     );
 
 
-moodOptions.forEach(
-    function (option) {
+moodOptions.forEach(function (option) {
 
-        option.addEventListener(
-            "click",
-            function () {
+    option.addEventListener("click", function () {
 
-                moodOptions.forEach(
-                    function (item) {
+        moodOptions.forEach(function (item) {
 
-                        item.classList.remove(
-                            "selected"
-                        );
+            item.classList.remove("selected");
 
-                    }
-                );
+        });
 
 
-                option.classList.add(
-                    "selected"
-                );
+        option.classList.add("selected");
 
 
-                selectedMood =
-                    option.dataset.mood;
+        selectedMood =
+            option.dataset.mood;
 
 
-                updateStartSessionButton();
+        updateStartSessionButton();
 
-            }
-        );
+    });
 
-    }
-);
+});
+
+
 // =========================================
 // START BUTTON STATE
 // =========================================
@@ -1997,7 +2279,7 @@ function updateStartSessionButton() {
 
     const button =
         document.getElementById(
-            "startTextSession"
+            "dashboardStartTextSession"
         );
 
 
@@ -2014,13 +2296,15 @@ function updateStartSessionButton() {
         !ready;
 
 }
+
+
 // =========================================
 // CREATE TEXT SESSION
 // =========================================
 
 const startTextSession =
     document.getElementById(
-        "startTextSession"
+        "dashboardStartTextSession"
     );
 
 
@@ -2029,6 +2313,9 @@ if (startTextSession) {
     startTextSession.addEventListener(
         "click",
         function () {
+
+            // Make sure all required
+            // selections have been made.
 
             if (
                 !selectedSessionType ||
@@ -2041,17 +2328,24 @@ if (startTextSession) {
             }
 
 
+            // Get optional opening note.
+
             const openingNote =
                 document.getElementById(
                     "sessionOpeningNote"
                 );
 
 
+            // Create the new session.
+
             const session = {
 
                 id:
                     "session-" +
                     Date.now(),
+
+                title:
+                    "Mind Care Session",
 
                 sessionType:
                     selectedSessionType,
@@ -2072,6 +2366,9 @@ if (startTextSession) {
 
                 startedAt:
                     new Date().toISOString(),
+
+                date:
+                    new Date().toLocaleDateString(),
 
                 duration:
                     null,
@@ -2094,7 +2391,8 @@ if (startTextSession) {
             };
 
 
-            // Add session to user
+            // Make sure sessions exists.
+
             if (!currentUser.sessions) {
 
                 currentUser.sessions = [];
@@ -2102,23 +2400,36 @@ if (startTextSession) {
             }
 
 
+            // Add session.
+
             currentUser.sessions.push(
                 session
             );
 
 
-            // Save user
+            // Save user.
+
             saveCurrentUser();
 
 
-            // Save current session ID
+            // Store active session ID.
+
             sessionStorage.setItem(
                 "activeSessionId",
                 session.id
             );
 
 
-            // Open text session
+            // Store intended session type.
+
+            sessionStorage.setItem(
+                "makivanSessionType",
+                "text"
+            );
+
+
+            // Open text session.
+
             window.location.href =
                 "text-session.html";
 
@@ -2127,6 +2438,309 @@ if (startTextSession) {
 
 }
 
+// =========================================
+// UNFINISHED SESSION NOTIFICATION
+// =========================================
+
+function createResumeNotifications() {
+
+    const sessions =
+        currentUser.sessions || [];
+
+
+    if (!currentUser.notifications) {
+
+        currentUser.notifications = [];
+
+    }
+
+
+    let changed = false;
+
+
+    sessions.forEach(function (session) {
+
+        if (
+            session.status !== "Incomplete"
+        ) {
+            return;
+        }
+
+
+        const notificationId =
+            "resume-" + session.id;
+
+
+        const alreadyExists =
+            currentUser.notifications.some(
+                function (notification) {
+
+                    return notification.id ===
+                        notificationId;
+
+                }
+            );
+
+
+        if (alreadyExists) {
+            return;
+        }
+
+
+        currentUser.notifications.push({
+
+            id:
+                notificationId,
+
+            type:
+                "unfinished-session",
+
+            sessionId:
+                session.id,
+
+            title:
+                "You have an unfinished session",
+
+            message:
+                "You previously left a conversation before completing it. Would you like to continue where you left off or start a new session?",
+
+            date:
+                new Date().toLocaleDateString(),
+
+            read:
+                false
+
+        });
+
+
+        changed = true;
+
+    });
+
+
+    if (changed) {
+
+        saveCurrentUser();
+
+    }
+
+}
+// =========================================
+// INITIAL BUTTON STATE
+// =========================================
+
+updateStartSessionButton();
+
+
+// =========================================
+// RESUME SESSION DIALOG
+// =========================================
+
+function showResumeSessionDialog(session) {
+
+    const existing =
+        document.getElementById(
+            "resumeSessionModal"
+        );
+
+
+    if (existing) {
+
+        existing.remove();
+
+    }
+
+
+    const modal =
+        document.createElement("div");
+
+
+    modal.id =
+        "resumeSessionModal";
+
+
+    modal.className =
+        "modal-overlay active";
+
+
+    modal.innerHTML = `
+
+        <div class="end-session-modal">
+
+            <button
+                type="button"
+                class="modal-close"
+                id="closeResumeModal"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+
+            <div class="modal-icon">
+
+                <i class="fa-solid fa-comments"></i>
+
+            </div>
+
+
+            <h2>
+                Continue your previous session?
+            </h2>
+
+
+            <p>
+                You have an unfinished conversation.
+                Would you like to continue where
+                you left off or start a new session?
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="startNewFromResume"
+                    class="secondary-button"
+                >
+
+                    Start New Session
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="continuePreviousSession"
+                    class="danger-button"
+                >
+
+                    Continue Session
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    // Close
+
+    document
+        .getElementById(
+            "closeResumeModal"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                modal.remove();
+
+            }
+        );
+
+
+    // Continue
+
+    document
+        .getElementById(
+            "continuePreviousSession"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                session.status =
+                    "In Progress";
+
+
+                session.autoEnded =
+                    false;
+
+
+                session.lastActiveAt =
+                    new Date().toISOString();
+
+
+                saveCurrentUser();
+
+
+                sessionStorage.setItem(
+                    "activeSessionId",
+                    session.id
+                );
+
+
+                window.location.href =
+                    "text-session.html";
+
+            }
+        );
+
+
+    // Start new
+
+    document
+        .getElementById(
+            "startNewFromResume"
+        )
+        .addEventListener(
+            "click",
+            function () {
+
+                modal.remove();
+
+
+                showSection(
+                    "session-setup"
+                );
+
+            }
+        );
+
+}
+// =========================================
+// SESSION DATE
+// =========================================
+
+function formatSessionDate(dateString) {
+
+    if (!dateString) {
+
+        return "Recent";
+
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    if (isNaN(date.getTime())) {
+
+        return "Recent";
+
+    }
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            month: "numeric",
+            day: "numeric",
+            year: "numeric"
+        }
+    );
+
+}
 // =========================================
 // NOTIFICATIONS
 // =========================================
@@ -2180,38 +2794,77 @@ function renderNotifications() {
 
                     return `
 
-                        <div class="notification-item">
+    <div
+        class="notification-item"
+        data-notification-id="${notification.id}"
+    >
 
-                            <div class="notification-icon">
+        <div class="notification-icon">
 
-                                <i class="fa-solid fa-bell"></i>
+            <i class="fa-solid fa-bell"></i>
 
-                            </div>
-
-
-                            <div class="notification-content">
-
-                                <strong>
-                                    ${notification.title}
-                                </strong>
-
-                                <p>
-                                    ${notification.message}
-                                </p>
-
-                            </div>
+        </div>
 
 
-                            <span class="notification-time">
+        <div class="notification-content">
 
-                                ${notification.date || ""}
+            <strong>
+                ${notification.title}
+            </strong>
 
-                            </span>
 
-                        </div>
+            <p>
+                ${notification.message}
+            </p>
 
-                    `;
 
+            ${
+                notification.type ===
+                "unfinished-session"
+                ?
+
+                `
+
+                <div class="notification-actions">
+
+                    <button
+                        type="button"
+                        class="notification-continue"
+                        data-session-id="${notification.sessionId}"
+                    >
+                        Continue Session
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="notification-new"
+                    >
+                        Start New Session
+                    </button>
+
+                </div>
+
+                `
+
+                :
+
+                ""
+
+            }
+
+        </div>
+
+
+        <span class="notification-time">
+
+            ${notification.date || ""}
+
+        </span>
+
+    </div>
+
+`;
                 }
             )
             .join("");
@@ -2293,11 +2946,401 @@ if (settingsLogout) {
 // SESSION FILTER BUTTONS
 // =========================================
 
+// =========================================
+// SESSION FILTER BUTTONS
+// =========================================
+
 const sessionFilters =
     document.querySelectorAll(
         ".session-filter-btn"
     );
 
+
+// =========================================
+// FILTER SESSIONS
+// =========================================
+
+function filterSessions(filter) {
+
+    const container =
+        document.getElementById(
+            "allSessionsList"
+        );
+
+
+    if (!container) return;
+
+
+    const sessions =
+        currentUser.sessions || [];
+
+
+    let filteredSessions;
+
+
+    // =====================================
+    // ALL
+    // =====================================
+
+    if (filter === "all") {
+
+        filteredSessions =
+            sessions;
+
+    }
+
+
+    // =====================================
+    // COMPLETED
+    // =====================================
+
+    else if (filter === "completed") {
+
+        filteredSessions =
+            sessions.filter(
+                function (session) {
+
+                    return (
+                        session.status &&
+                        session.status
+                            .toLowerCase() ===
+                        "completed"
+                    );
+
+                }
+            );
+
+    }
+
+
+    // =====================================
+    // IN PROGRESS
+    // =====================================
+
+    else if (filter === "in-progress") {
+
+        filteredSessions =
+            sessions.filter(
+                function (session) {
+
+                    return (
+                        !session.status ||
+                        session.status
+                            .toLowerCase() ===
+                        "in progress"
+                    );
+
+                }
+            );
+
+    }
+
+
+    // =====================================
+    // VOICE
+    // =====================================
+
+    else if (filter === "voice") {
+
+        filteredSessions =
+            sessions.filter(
+                function (session) {
+
+                    return (
+                        session.communicationType ===
+                        "voice" ||
+
+                        session.sessionType ===
+                        "voice" ||
+
+                        session.type ===
+                        "voice"
+                    );
+
+                }
+            );
+
+    }
+
+
+    // =====================================
+    // TEXT
+    // =====================================
+
+    else if (filter === "text") {
+
+        filteredSessions =
+            sessions.filter(
+                function (session) {
+
+                    return (
+                        session.communicationType ===
+                        "text" ||
+
+                        session.sessionType ===
+                        "text" ||
+
+                        session.type ===
+                        "text"
+                    );
+
+                }
+            );
+
+    }
+
+
+    // =====================================
+    // FALLBACK
+    // =====================================
+
+    else {
+
+        filteredSessions =
+            sessions;
+
+    }
+
+
+    // =====================================
+    // NOTHING FOUND
+    // =====================================
+
+    if (
+        filteredSessions.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-sessions">
+
+                <i class="fa-regular fa-comments"></i>
+
+                <strong>
+                    No ${getFilterName(filter)}
+                    sessions
+                </strong>
+
+                <p>
+                    Sessions matching this filter
+                    will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    // =====================================
+    // RENDER FILTERED SESSIONS
+    // =====================================
+
+    container.innerHTML =
+        filteredSessions
+            .slice()
+            .reverse()
+            .map(
+                function (session) {
+
+                    const icon =
+                        (
+                            session.communicationType ===
+                            "voice" ||
+
+                            session.sessionType ===
+                            "voice" ||
+
+                            session.type ===
+                            "voice"
+                        )
+                        ? "fa-microphone"
+                        : "fa-comment-dots";
+
+
+                    const title =
+                        session.title ||
+                        "Mind Care Session";
+
+
+                    const date =
+                        session.date ||
+                        formatSessionDate(
+                            session.startedAt
+                        );
+
+
+                    const duration =
+                        session.duration ||
+                        "In progress";
+
+
+                    const status =
+                        session.status ||
+                        "In Progress";
+
+
+                    return `
+
+                        <div
+                            class="session-item clickable-session"
+                            data-session-id="${session.id}"
+                        >
+
+                            <div class="session-type-icon">
+
+                                <i class="fa-solid ${icon}"></i>
+
+                            </div>
+
+
+                            <div class="session-item-info">
+
+                                <strong>
+                                    ${title}
+                                </strong>
+
+                                <span>
+                                    ${date}
+                                    ·
+                                    ${duration}
+                                </span>
+
+                            </div>
+
+
+                            <span class="session-status">
+
+                                ${status}
+
+                            </span>
+
+
+                            <i
+                                class="fa-solid fa-chevron-right session-arrow"
+                            ></i>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+
+    // =====================================
+    // MAKE SESSIONS CLICKABLE
+    // =====================================
+
+    container
+        .querySelectorAll(
+            ".clickable-session"
+        )
+        .forEach(
+            function (sessionElement) {
+
+                sessionElement.addEventListener(
+                    "click",
+                    function () {
+
+                        const sessionId =
+                            sessionElement.dataset.sessionId;
+
+
+                        openSessionDetails(
+                            sessionId
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+// =========================================
+// FILTER NAME
+// =========================================
+
+function getFilterName(filter) {
+
+    const names = {
+
+        all:
+            "available",
+
+        completed:
+            "completed",
+
+        "in-progress":
+            "in progress",
+
+        voice:
+            "voice",
+
+        text:
+            "text"
+
+    };
+
+
+    return names[filter] ||
+        "matching";
+
+}
+
+
+// =========================================
+// FORMAT SESSION DATE
+// =========================================
+
+function formatSessionDate(
+    dateString
+) {
+
+    if (!dateString) {
+
+        return "Recent";
+
+    }
+
+
+    const date =
+        new Date(dateString);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "Recent";
+
+    }
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+// =========================================
+// FILTER BUTTON EVENTS
+// =========================================
 
 sessionFilters.forEach(
     function (button) {
@@ -2305,6 +3348,9 @@ sessionFilters.forEach(
         button.addEventListener(
             "click",
             function () {
+
+                // Remove active
+                // from every button
 
                 sessionFilters.forEach(
                     function (item) {
@@ -2317,8 +3363,23 @@ sessionFilters.forEach(
                 );
 
 
+                // Activate clicked button
+
                 button.classList.add(
                     "active"
+                );
+
+
+                // Get filter
+
+                const filter =
+                    button.dataset.filter;
+
+
+                // Apply filter
+
+                filterSessions(
+                    filter || "all"
                 );
 
             }
@@ -2326,3 +3387,50 @@ sessionFilters.forEach(
 
     }
 );
+
+
+// =========================================
+// DEFAULT FILTER
+// =========================================
+
+function initializeSessionFilter() {
+
+    const activeButton =
+        document.querySelector(
+            ".session-filter-btn.active"
+        );
+
+
+    if (activeButton) {
+
+        filterSessions(
+            activeButton.dataset.filter ||
+            "all"
+        );
+
+        return;
+
+    }
+
+
+    // If none is active,
+    // make ALL active
+
+    const allButton =
+        document.querySelector(
+            '.session-filter-btn[data-filter="all"]'
+        );
+
+
+    if (allButton) {
+
+        allButton.classList.add(
+            "active"
+        );
+
+    }
+
+
+    filterSessions("all");
+
+}
