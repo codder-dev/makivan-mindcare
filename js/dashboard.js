@@ -563,28 +563,29 @@ function startSession(type) {
 
 
 // =========================================
-// TEXT SESSION
+// OPEN SESSION SETUP
 // =========================================
 
-const startTextButton =
+const startSessionSetup =
     document.getElementById(
-        "startTextSession"
+        "startSessionSetup"
     );
 
 
-if (startTextButton) {
+if (startSessionSetup) {
 
-    startTextButton.addEventListener(
+    startSessionSetup.addEventListener(
         "click",
         function () {
 
-            startSession("text");
+            showSection(
+                "session-setup"
+            );
 
         }
     );
 
 }
-
 
 // =========================================
 // VOICE SESSION
@@ -626,7 +627,9 @@ if (sidebarStart) {
         "click",
         function () {
 
-            startSession("text");
+            showSection(
+                "session-setup"
+            );
 
         }
     );
@@ -844,65 +847,86 @@ const dashboardSections =
 // SHOW SECTION
 // =========================================
 
+// =========================================
+// SHOW DASHBOARD SECTION
+// =========================================
+
 function showSection(sectionName) {
 
-    // Hide all sections
+    console.log("Opening section:", sectionName);
 
-    dashboardSections.forEach(
-        function (section) {
+    // Hide all dashboard sections
+    dashboardSections.forEach(function (section) {
 
-            section.classList.remove(
-                "active-section"
-            );
+        section.classList.remove(
+            "active-section"
+        );
 
-        }
-    );
+        section.style.setProperty(
+            "display",
+            "none",
+            "important"
+        );
+
+    });
 
 
-    // Show requested section
-
+    // Find requested section
     const selectedSection =
         document.getElementById(
             "section-" + sectionName
         );
 
 
-    if (selectedSection) {
+    // If section doesn't exist
+    if (!selectedSection) {
 
-        selectedSection.classList.add(
-            "active-section"
+        console.error(
+            "Section not found:",
+            "section-" + sectionName
         );
+
+        return;
 
     }
 
 
-    // Update active sidebar item
-
-    navigationItems.forEach(
-        function (item) {
-
-            item.classList.remove(
-                "active"
-            );
-
-
-            if (
-                item.dataset.section ===
-                sectionName
-            ) {
-
-                item.classList.add(
-                    "active"
-                );
-
-            }
-
-        }
+    // Show requested section
+    selectedSection.classList.add(
+        "active-section"
     );
 
 
-    // Update URL
+    selectedSection.style.setProperty(
+        "display",
+        "block",
+        "important"
+    );
 
+
+    // Update sidebar active state
+    navigationItems.forEach(function (item) {
+
+        item.classList.remove(
+            "active"
+        );
+
+
+        if (
+            item.dataset.section ===
+            sectionName
+        ) {
+
+            item.classList.add(
+                "active"
+            );
+
+        }
+
+    });
+
+
+    // Update URL
     history.replaceState(
         null,
         "",
@@ -911,12 +935,10 @@ function showSection(sectionName) {
 
 
     // Close mobile sidebar
-
     closeSidebar();
 
 
-    // Load section-specific data
-
+    // Section-specific rendering
     if (sectionName === "sessions") {
 
         renderAllSessions();
@@ -943,6 +965,30 @@ function showSection(sectionName) {
         renderSettings();
 
     }
+
+}
+// =========================================
+// MY SESSIONS - START NEW SESSION
+// =========================================
+
+const newSessionButton =
+    document.querySelector(
+        ".new-session-button"
+    );
+
+
+if (newSessionButton) {
+
+    newSessionButton.addEventListener(
+        "click",
+        function () {
+
+            showSection(
+                "session-setup"
+            );
+
+        }
+    );
 
 }
 
@@ -1014,19 +1060,14 @@ function loadInitialSection() {
     // NORMAL DASHBOARD SECTIONS
     // =====================================
 
-    const validSections = [
-
-        "dashboard",
-
-        "sessions",
-
-        "wellbeing",
-
-        "notifications",
-
-        "settings"
-
-    ];
+   const validSections = [
+    "dashboard",
+    "sessions",
+    "wellbeing",
+    "notifications",
+    "settings",
+    "session-setup"
+];
 
 
     if (
@@ -1474,6 +1515,32 @@ function openSessionDetails(sessionId) {
 
 }
 // =========================================
+// SESSION BUTTONS
+// =========================================
+
+const sessionButtons =
+    document.querySelectorAll(
+        "[data-start-session]"
+    );
+
+
+sessionButtons.forEach(
+    function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                showSection(
+                    "session-setup"
+                );
+
+            }
+        );
+
+    }
+);
+// =========================================
 // RENDER CONVERSATION
 // =========================================
 
@@ -1777,7 +1844,288 @@ function renderMoodHistory() {
             .join("");
 
 }
+// =========================================
+// SESSION SETUP
+// =========================================
 
+let selectedSessionType = null;
+let selectedReason = null;
+let selectedMood = null;
+
+
+// =========================================
+// SESSION TYPE
+// =========================================
+
+const sessionTypeOptions =
+    document.querySelectorAll(
+        ".session-type-option"
+    );
+
+
+sessionTypeOptions.forEach(
+    function (option) {
+
+        option.addEventListener(
+            "click",
+            function () {
+
+                sessionTypeOptions.forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                option.classList.add(
+                    "selected"
+                );
+
+
+                selectedSessionType =
+                    option.dataset.sessionType;
+
+
+                updateStartSessionButton();
+
+            }
+        );
+
+    }
+);
+
+
+// =========================================
+// SESSION REASON
+// =========================================
+
+const reasonOptions =
+    document.querySelectorAll(
+        ".reason-option"
+    );
+
+
+reasonOptions.forEach(
+    function (option) {
+
+        option.addEventListener(
+            "click",
+            function () {
+
+                reasonOptions.forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                option.classList.add(
+                    "selected"
+                );
+
+
+                selectedReason =
+                    option.dataset.reason;
+
+
+                updateStartSessionButton();
+
+            }
+        );
+
+    }
+);
+
+
+// =========================================
+// MOOD
+// =========================================
+
+const moodOptions =
+    document.querySelectorAll(
+        ".mood-option"
+    );
+
+
+moodOptions.forEach(
+    function (option) {
+
+        option.addEventListener(
+            "click",
+            function () {
+
+                moodOptions.forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                option.classList.add(
+                    "selected"
+                );
+
+
+                selectedMood =
+                    option.dataset.mood;
+
+
+                updateStartSessionButton();
+
+            }
+        );
+
+    }
+);
+// =========================================
+// START BUTTON STATE
+// =========================================
+
+function updateStartSessionButton() {
+
+    const button =
+        document.getElementById(
+            "startTextSession"
+        );
+
+
+    if (!button) return;
+
+
+    const ready =
+        selectedSessionType &&
+        selectedReason &&
+        selectedMood;
+
+
+    button.disabled =
+        !ready;
+
+}
+// =========================================
+// CREATE TEXT SESSION
+// =========================================
+
+const startTextSession =
+    document.getElementById(
+        "startTextSession"
+    );
+
+
+if (startTextSession) {
+
+    startTextSession.addEventListener(
+        "click",
+        function () {
+
+            if (
+                !selectedSessionType ||
+                !selectedReason ||
+                !selectedMood
+            ) {
+
+                return;
+
+            }
+
+
+            const openingNote =
+                document.getElementById(
+                    "sessionOpeningNote"
+                );
+
+
+            const session = {
+
+                id:
+                    "session-" +
+                    Date.now(),
+
+                sessionType:
+                    selectedSessionType,
+
+                communicationType:
+                    "text",
+
+                reason:
+                    selectedReason,
+
+                mood:
+                    selectedMood,
+
+                openingNote:
+                    openingNote
+                        ? openingNote.value.trim()
+                        : "",
+
+                startedAt:
+                    new Date().toISOString(),
+
+                duration:
+                    null,
+
+                messages:
+                    [],
+
+                riskStatus:
+                    "not_assessed",
+
+                status:
+                    "In Progress",
+
+                reviewStatus:
+                    "pending",
+
+                adminSummary:
+                    null
+
+            };
+
+
+            // Add session to user
+            if (!currentUser.sessions) {
+
+                currentUser.sessions = [];
+
+            }
+
+
+            currentUser.sessions.push(
+                session
+            );
+
+
+            // Save user
+            saveCurrentUser();
+
+
+            // Save current session ID
+            sessionStorage.setItem(
+                "activeSessionId",
+                session.id
+            );
+
+
+            // Open text session
+            window.location.href =
+                "text-session.html";
+
+        }
+    );
+
+}
 
 // =========================================
 // NOTIFICATIONS

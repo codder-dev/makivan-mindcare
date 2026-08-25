@@ -561,17 +561,13 @@
                 <div class="session-buttons">
 
                     <button
-                        class="primary-session-button"
-                        id="startTextSession"
-                    >
+    class="primary-session-button"
+    id="startSessionSetup"
+>
+    <i class="fa-solid fa-comment-dots"></i>
 
-                        <i class="fa-solid fa-comment-dots"></i>
-
-                        Start text session
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </button>
+    Start text session
+</button>
 
                     <button
                         class="secondary-session-button"
@@ -1583,6 +1579,509 @@
         </div>
 
     </div>
+    </section>
+    <!-- =========================================
+     SESSION SETUP
+========================================= -->
+
+<section
+    class="dashboard-section"
+    id="section-session-setup"
+>
+
+    <div class="page-heading">
+
+        <span class="small-label">
+            NEW SESSION
+        </span>
+
+        <h1>Let's create your safe space</h1>
+
+        <p>
+            A few details will help Makivan Mind Care
+            understand the context of your session.
+        </p>
+
+    </div>
+
+
+    <!-- SESSION TYPE -->
+
+    <div class="session-setup-card">
+
+        <div class="setup-heading">
+
+            <div class="setup-icon">
+                <i class="fa-solid fa-user-group"></i>
+            </div>
+
+            <div>
+
+                <span class="small-label">
+                    STEP 1
+                </span>
+
+                <h2>
+                    What best describes your session?
+                </h2>
+
+                <p>
+                    Choose the option that best matches
+                    the kind of support you're looking for.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="session-type-options">
+
+
+            <!-- INDIVIDUAL -->
+
+            <button
+                type="button"
+                class="session-type-option"
+                data-session-type="individual"
+            >
+
+                <div class="option-icon">
+
+                    <i class="fa-solid fa-user"></i>
+
+                </div>
+
+                <div class="option-content">
+
+                    <strong>
+                        Individual
+                    </strong>
+
+                    <span>
+                        Personal support for your thoughts,
+                        emotions, wellbeing and life challenges.
+                    </span>
+
+                </div>
+
+                <i class="fa-solid fa-circle-check option-check"></i>
+
+            </button>
+
+
+
+            <!-- TEEN -->
+
+            <button
+                type="button"
+                class="session-type-option"
+                data-session-type="teen"
+            >
+
+                <div class="option-icon">
+
+                    <i class="fa-solid fa-user-graduate"></i>
+
+                </div>
+
+                <div class="option-content">
+
+                    <strong>
+                        Teen / Young Person
+                    </strong>
+
+                    <span>
+                        Support around school, family,
+                        relationships, emotions and wellbeing.
+                    </span>
+
+                </div>
+
+                <i class="fa-solid fa-circle-check option-check"></i>
+
+            </button>
+
+
+
+            <!-- COUPLE -->
+
+            <button
+                type="button"
+                class="session-type-option"
+                data-session-type="couple"
+            >
+
+                <div class="option-icon">
+
+                    <i class="fa-solid fa-heart"></i>
+
+                </div>
+
+                <div class="option-content">
+
+                    <strong>
+                        Couple
+                    </strong>
+
+                    <span>
+                        Support with communication,
+                        connection, conflict and relationships.
+                    </span>
+
+                </div>
+
+                <i class="fa-solid fa-circle-check option-check"></i>
+
+            </button>
+
+
+
+            <!-- NOT SURE -->
+
+            <button
+                type="button"
+                class="session-type-option"
+                data-session-type="general"
+            >
+
+                <div class="option-icon">
+
+                    <i class="fa-solid fa-circle-question"></i>
+
+                </div>
+
+                <div class="option-content">
+
+                    <strong>
+                        I'm not sure
+                    </strong>
+
+                    <span>
+                        I'm not sure which option fits
+                        my situation.
+                    </span>
+
+                </div>
+
+                <i class="fa-solid fa-circle-check option-check"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- REASON FOR SESSION -->
+
+    <div class="session-setup-card">
+
+        <div class="setup-heading">
+
+            <div class="setup-icon">
+                <i class="fa-solid fa-comment-medical"></i>
+            </div>
+
+            <div>
+
+                <span class="small-label">
+                    STEP 2
+                </span>
+
+                <h2>
+                    What brings you here today?
+                </h2>
+
+                <p>
+                    Select what best describes what you'd
+                    like support with.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="reason-options">
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="stress"
+            >
+                <i class="fa-solid fa-cloud"></i>
+                Stress
+            </button>
+
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="anxiety"
+            >
+                <i class="fa-solid fa-wind"></i>
+                Anxiety
+            </button>
+
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="relationships"
+            >
+                <i class="fa-solid fa-heart"></i>
+                Relationships
+            </button>
+
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="family"
+            >
+                <i class="fa-solid fa-house"></i>
+                Family
+            </button>
+
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="school-work"
+            >
+                <i class="fa-solid fa-briefcase"></i>
+                School / Work
+            </button>
+
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="grief"
+            >
+                <i class="fa-solid fa-hands-holding-child"></i>
+                Grief / Loss
+            </button>
+
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="self-esteem"
+            >
+                <i class="fa-solid fa-user-check"></i>
+                Self-esteem
+            </button>
+
+
+            <button
+                type="button"
+                class="reason-option"
+                data-reason="other"
+            >
+                <i class="fa-solid fa-ellipsis"></i>
+                Something else
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MOOD -->
+
+    <div class="session-setup-card">
+
+        <div class="setup-heading">
+
+            <div class="setup-icon">
+                <i class="fa-solid fa-face-smile"></i>
+            </div>
+
+            <div>
+
+                <span class="small-label">
+                    STEP 3
+                </span>
+
+                <h2>
+                    How are you feeling right now?
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="mood-options">
+
+            <button
+                type="button"
+                class="mood-option"
+                data-mood="good"
+            >
+                <span>😊</span>
+                Good
+            </button>
+
+
+            <button
+                type="button"
+                class="mood-option"
+                data-mood="okay"
+            >
+                <span>🙂</span>
+                Okay
+            </button>
+
+
+            <button
+                type="button"
+                class="mood-option"
+                data-mood="neutral"
+            >
+                <span>😐</span>
+                Neutral
+            </button>
+
+
+            <button
+                type="button"
+                class="mood-option"
+                data-mood="low"
+            >
+                <span>😔</span>
+                Low
+            </button>
+
+
+            <button
+                type="button"
+                class="mood-option"
+                data-mood="anxious"
+            >
+                <span>😟</span>
+                Anxious
+            </button>
+
+
+            <button
+                type="button"
+                class="mood-option"
+                data-mood="very-low"
+            >
+                <span>😢</span>
+                Very low
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- OPTIONAL NOTE -->
+
+    <div class="session-setup-card">
+
+        <div class="setup-heading">
+
+            <div class="setup-icon">
+                <i class="fa-solid fa-pen"></i>
+            </div>
+
+            <div>
+
+                <span class="small-label">
+                    STEP 4 · OPTIONAL
+                </span>
+
+                <h2>
+                    Anything you'd like to share first?
+                </h2>
+
+                <p>
+                    You can leave this blank and talk
+                    about it during your session.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <textarea
+            id="sessionOpeningNote"
+            class="session-opening-note"
+            placeholder="Write anything you'd like us to know before we begin..."
+            rows="5"
+        ></textarea>
+
+    </div>
+
+
+
+    <!-- SAFETY NOTICE -->
+
+    <div class="session-safety-notice">
+
+        <div class="safety-icon">
+
+            <i class="fa-solid fa-shield-heart"></i>
+
+        </div>
+
+        <div>
+
+            <strong>
+                Your safety comes first
+            </strong>
+
+            <p>
+                Makivan Mind Care is designed to assist
+                professional psychological and counselling
+                support. It does not replace a qualified
+                mental-health professional or emergency
+                services.
+            </p>
+
+            <p>
+                Information that suggests an immediate
+                safety concern may require professional
+                review or escalation.
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- START BUTTON -->
+
+    <div class="start-session-area">
+
+        <button
+            type="button"
+            id="dashboardStartTextSession"
+            class="primary-session-button"
+            disabled
+        >
+
+            <i class="fa-solid fa-comments"></i>
+
+            Start Text Session
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+    </div>
+
+</section>
 
 
 

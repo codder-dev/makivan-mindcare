@@ -1,0 +1,732 @@
+/* =========================================
+   MAKIVAN MIND CARE
+   TEXT SESSION
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: #071a16;
+    color: #eaf7f2;
+}
+
+
+button,
+textarea {
+    font: inherit;
+}
+
+
+button {
+    cursor: pointer;
+}
+
+
+.text-session-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 1100px;
+    margin: auto;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.session-header {
+    height: 75px;
+    padding: 0 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255,255,255,.08);
+
+    background: rgba(7,26,22,.96);
+}
+
+
+.session-header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.icon-button {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.05);
+    color: #dff8ed;
+}
+
+
+.icon-button:hover {
+    background: rgba(79,190,130,.15);
+}
+
+
+.session-brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+
+.brand-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #1e8f61;
+    color: white;
+}
+
+
+.session-brand strong,
+.session-brand span {
+    display: block;
+}
+
+
+.session-brand strong {
+    font-size: 15px;
+}
+
+
+.session-brand span {
+    margin-top: 3px;
+    font-size: 12px;
+    color: #8faea4;
+}
+
+
+.session-status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+    color: #9ed9bd;
+}
+
+
+.status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #4bd58c;
+}
+
+
+/* =========================================
+   INTRO
+========================================= */
+
+.session-intro {
+    text-align: center;
+    padding: 35px 20px 20px;
+}
+
+
+.intro-icon {
+    width: 58px;
+    height: 58px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18px;
+
+    background: rgba(46,158,105,.15);
+    color: #69d69e;
+
+    font-size: 22px;
+}
+
+
+.session-intro h1 {
+    margin-top: 15px;
+    font-size: 24px;
+}
+
+
+.session-intro p {
+    margin-top: 8px;
+    color: #91aaa1;
+    font-size: 14px;
+}
+
+
+.privacy-note {
+    width: fit-content;
+    margin: 15px auto 0;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 13px;
+
+    border-radius: 20px;
+
+    background: rgba(255,255,255,.04);
+
+    color: #9bb4ab;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   SESSION INFO
+========================================= */
+
+.session-info-bar {
+    margin: 0 25px 15px;
+
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+
+    padding: 14px;
+
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.025);
+}
+
+
+.session-info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.session-info-item > i {
+    color: #5fcf91;
+}
+
+
+.session-info-item small,
+.session-info-item strong {
+    display: block;
+}
+
+
+.session-info-item small {
+    color: #78948b;
+    font-size: 10px;
+}
+
+
+.session-info-item strong {
+    margin-top: 3px;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   CONVERSATION
+========================================= */
+
+.conversation-area {
+    flex: 1;
+
+    padding: 20px 25px;
+
+    min-height: 350px;
+}
+
+
+.conversation-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.message {
+    display: flex;
+    gap: 10px;
+    max-width: 75%;
+}
+
+
+.message.user {
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+
+
+.ai-avatar,
+.user-avatar {
+    flex: 0 0 36px;
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+}
+
+
+.ai-avatar {
+    background: #1e8f61;
+}
+
+
+.user-avatar {
+    background: #284c43;
+}
+
+
+.message-content {
+    padding: 13px 16px;
+
+    border-radius: 17px;
+
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+
+.message.ai .message-content {
+    background: #102b24;
+    border-top-left-radius: 5px;
+}
+
+
+.message.user .message-content {
+    background: #1e8f61;
+    border-top-right-radius: 5px;
+}
+
+
+.message-label {
+    display: block;
+    margin-bottom: 4px;
+
+    font-size: 10px;
+    font-weight: bold;
+
+    opacity: .7;
+}
+
+
+/* =========================================
+   TYPING
+========================================= */
+
+.typing-indicator {
+    display: none;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+
+.typing-indicator.active {
+    display: flex;
+}
+
+
+.typing-bubble {
+    display: flex;
+    gap: 4px;
+
+    padding: 12px 15px;
+
+    border-radius: 16px;
+
+    background: #102b24;
+}
+
+
+.typing-bubble span {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #72c99b;
+
+    animation: typing 1.2s infinite;
+}
+
+
+.typing-bubble span:nth-child(2) {
+    animation-delay: .15s;
+}
+
+
+.typing-bubble span:nth-child(3) {
+    animation-delay: .3s;
+}
+
+
+@keyframes typing {
+
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: .4;
+    }
+
+    30% {
+        transform: translateY(-5px);
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================================
+   SAFETY
+========================================= */
+
+.conversation-safety {
+    margin: 0 25px 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 7px;
+
+    color: #78968c;
+    font-size: 11px;
+    text-align: center;
+}
+
+
+.conversation-safety i {
+    color: #58c58c;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.message-form {
+    margin: 0 25px;
+
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+
+    padding: 8px;
+
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 18px;
+
+    background: #0d2721;
+}
+
+
+.input-action,
+.send-button {
+    width: 42px;
+    height: 42px;
+
+    flex: 0 0 42px;
+
+    border: none;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.input-action {
+    background: rgba(255,255,255,.05);
+    color: #92afa5;
+}
+
+
+.send-button {
+    background: #1e8f61;
+    color: white;
+}
+
+
+.send-button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+
+.message-input-wrapper {
+    flex: 1;
+}
+
+
+#messageInput {
+    width: 100%;
+
+    resize: none;
+
+    min-height: 42px;
+    max-height: 130px;
+
+    padding: 11px 5px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+    color: white;
+
+    line-height: 1.4;
+}
+
+
+#messageInput::placeholder {
+    color: #668178;
+}
+
+
+/* =========================================
+   END SESSION
+========================================= */
+
+.end-session-area {
+    padding: 12px 25px 25px;
+    text-align: center;
+}
+
+
+.end-session-button {
+    border: none;
+    background: transparent;
+
+    color: #819b92;
+
+    font-size: 12px;
+}
+
+
+.end-session-button:hover {
+    color: #ff8d8d;
+}
+
+
+/* =========================================
+   MODAL
+========================================= */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0,0,0,.7);
+
+    z-index: 1000;
+}
+
+
+.modal-overlay.active {
+    display: flex;
+}
+
+
+.end-session-modal {
+    width: 100%;
+    max-width: 420px;
+
+    position: relative;
+
+    padding: 30px;
+
+    text-align: center;
+
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 20px;
+
+    background: #102b24;
+}
+
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    border: none;
+    background: transparent;
+
+    color: #819b92;
+
+    font-size: 18px;
+}
+
+
+.modal-icon {
+    width: 55px;
+    height: 55px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255,190,90,.1);
+    color: #e8b96c;
+
+    font-size: 20px;
+}
+
+
+.end-session-modal h2 {
+    margin-top: 15px;
+}
+
+
+.end-session-modal p {
+    margin-top: 8px;
+
+    color: #8ca69d;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+
+.modal-actions button {
+    flex: 1;
+
+    padding: 12px;
+
+    border-radius: 10px;
+}
+
+
+.secondary-button {
+    border: 1px solid rgba(255,255,255,.1);
+    background: transparent;
+    color: white;
+}
+
+
+.danger-button {
+    border: none;
+    background: #b84b4b;
+    color: white;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .session-header {
+        padding: 0 15px;
+    }
+
+
+    .session-brand span {
+        display: none;
+    }
+
+
+    .session-status-indicator span:last-child {
+        display: none;
+    }
+
+
+    .session-info-bar {
+        margin-left: 15px;
+        margin-right: 15px;
+
+        gap: 15px;
+
+        justify-content: space-around;
+    }
+
+
+    .session-info-item {
+        gap: 6px;
+    }
+
+
+    .conversation-area {
+        padding: 15px;
+    }
+
+
+    .message {
+        max-width: 88%;
+    }
+
+
+    .message-form {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+
+    .conversation-safety {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+
+
+    .end-session-area {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+}

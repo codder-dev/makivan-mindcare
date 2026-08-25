@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Makivan Mind Care – compassionate counselling and psychology services for individuals, couples, and families. Your mental health matters." />
+    <meta name="keywords" content="Makivan Mind Care, counselling, psychology, mental health, therapy,心理咨询,心理学家, Kenya, wellbeing" />
+    <meta name="author" content="Makivan Mind Care" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:title" content="Makivan Mind Care – Counselling & Psychology" />
+    <meta property="og:description" content="Professional, empathetic mental health support tailored to your journey." />
+    <meta property="og:url" content="https://www.makivanmindcare.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="images/og-mindcare.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#2a4b6e" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- main stylesheet -->
+    <link rel="stylesheet" href="css/text-session.css" />
+    <!-- Font Awesome 6  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <!-- Google Font: Inter + a softer, humanist touch -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet" />
+
+    <link rel="icon" href="images/company-logo.jpg" type="image/x-icon" />
+
+    <title>Text Session | Makivan Mind Care</title>
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TEXT SESSION
+    ========================================== -->
+
+    <main class="text-session-page">
+
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <header class="session-header">
+
+            <div class="session-header-left">
+
+                <button
+                    type="button"
+                    id="backToDashboard"
+                    class="icon-button"
+                    aria-label="Back to dashboard"
+                >
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                </button>
+
+
+                <div class="session-brand">
+
+                    <div class="brand-icon">
+
+                        <i class="fa-solid fa-brain"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Makivan Mind Care
+                        </strong>
+
+                        <span>
+                            Text Session
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Session status -->
+
+            <div class="session-status-indicator">
+
+                <span class="status-dot"></span>
+
+                <span>
+                    Safe Space
+                </span>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================
+             SESSION INTRO
+        ====================================== -->
+
+        <section
+            class="session-intro"
+            id="sessionIntro"
+        >
+
+            <div class="intro-icon">
+
+                <i class="fa-solid fa-comments"></i>
+
+            </div>
+
+
+            <h1>
+                You're in a safe space
+            </h1>
+
+
+            <p>
+                Take your time. Share only what
+                you're comfortable sharing.
+            </p>
+
+
+            <div class="privacy-note">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <span>
+                    Your session is handled
+                    privately and securely.
+                </span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             SESSION INFORMATION
+        ====================================== -->
+
+        <section class="session-info-bar">
+
+            <div class="session-info-item">
+
+                <i class="fa-solid fa-user"></i>
+
+                <div>
+
+                    <small>
+                        Session
+                    </small>
+
+                    <strong id="sessionType">
+                        Text
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="session-info-item">
+
+                <i class="fa-solid fa-heart"></i>
+
+                <div>
+
+                    <small>
+                        Starting mood
+                    </small>
+
+                    <strong id="sessionMood">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="session-info-item">
+
+                <i class="fa-solid fa-clock"></i>
+
+                <div>
+
+                    <small>
+                        Duration
+                    </small>
+
+                    <strong id="sessionTimer">
+                        00:00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             CONVERSATION
+        ====================================== -->
+
+        <section
+            class="conversation-area"
+            id="conversationArea"
+        >
+
+            <!-- Messages will be inserted here -->
+
+            <div
+                class="conversation-messages"
+                id="conversationMessages"
+            >
+
+            </div>
+
+
+            <!-- AI typing indicator -->
+
+            <div
+                class="typing-indicator"
+                id="typingIndicator"
+            >
+
+                <div class="ai-avatar">
+
+                    <i class="fa-solid fa-brain"></i>
+
+                </div>
+
+
+                <div class="typing-bubble">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             SAFETY NOTICE
+        ====================================== -->
+
+        <div class="conversation-safety">
+
+            <i class="fa-solid fa-shield-heart"></i>
+
+            <span>
+                If you feel you are in immediate
+                danger, please seek emergency help
+                or contact a trusted person nearby.
+            </span>
+
+        </div>
+
+
+
+        <!-- =====================================
+             MESSAGE INPUT
+        ====================================== -->
+
+        <form
+            class="message-form"
+            id="messageForm"
+        >
+
+            <button
+                type="button"
+                class="input-action"
+                id="voiceInputButton"
+                aria-label="Voice input"
+            >
+
+                <i class="fa-solid fa-microphone"></i>
+
+            </button>
+
+
+            <div class="message-input-wrapper">
+
+                <textarea
+                    id="messageInput"
+                    rows="1"
+                    placeholder="Share what's on your mind..."
+                    autocomplete="off"
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="send-button"
+                id="sendMessageButton"
+                aria-label="Send message"
+                disabled
+            >
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </form>
+
+
+
+        <!-- =====================================
+             END SESSION
+        ====================================== -->
+
+        <div class="end-session-area">
+
+            <button
+                type="button"
+                id="endSessionButton"
+                class="end-session-button"
+            >
+
+                <i class="fa-solid fa-circle-stop"></i>
+
+                End Session
+
+            </button>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- =========================================
+         END SESSION MODAL
+    ========================================== -->
+
+    <div
+        class="modal-overlay"
+        id="endSessionModal"
+    >
+
+        <div class="end-session-modal">
+
+            <button
+                type="button"
+                id="closeEndModal"
+                class="modal-close"
+            >
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+
+            <div class="modal-icon">
+
+                <i class="fa-solid fa-circle-question"></i>
+
+            </div>
+
+
+            <h2>
+                End this session?
+            </h2>
+
+
+            <p>
+                Your conversation will be saved
+                to your session history.
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="cancelEndSession"
+                    class="secondary-button"
+                >
+                    Continue Session
+                </button>
+
+
+                <button
+                    type="button"
+                    id="confirmEndSession"
+                    class="danger-button"
+                >
+                    End Session
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="js/text-session.js"></script>
+
+</body>
+
+</html>
